@@ -216,4 +216,3 @@ class FieldService {
 }
 
 export default new FieldService();
-export default new FieldService();
