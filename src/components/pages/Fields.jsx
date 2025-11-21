@@ -48,21 +48,21 @@ const Fields = () => {
   };
 
   const filterFields = () => {
-    let filtered = fields.map(field => {
-      const fieldCrop = crops.find(crop => crop.fieldId === field.Id.toString());
+let filtered = fields.map(field => {
+      const fieldCrop = crops.find(crop => (crop.field_id_c?.Id || crop.field_id_c) === field.Id);
       return {
         ...field,
-        cropName: fieldCrop?.name,
-        currentStage: fieldCrop?.currentStage
+        cropName: fieldCrop?.Name,
+        currentStage: fieldCrop?.current_stage_c
       };
     });
 
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(field =>
-        field.name.toLowerCase().includes(query) ||
-        field.soilType.toLowerCase().includes(query) ||
-        field.cropName?.toLowerCase().includes(query)
+(field.Name || '').toLowerCase().includes(query) ||
+        (field.soil_type_c || '').toLowerCase().includes(query) ||
+        (field.cropName || '').toLowerCase().includes(query)
       );
     }
 
@@ -164,8 +164,8 @@ const Fields = () => {
                 </div>
                 
                 <div className="bg-white rounded-xl shadow-md border border-gray-100 p-4 text-center">
-                  <div className="text-2xl font-bold text-secondary mb-1">
-                    {filteredFields.reduce((total, field) => total + field.area, 0).toFixed(1)}
+<div className="text-2xl font-bold text-secondary mb-1">
+                    {filteredFields.reduce((total, field) => total + (field.area_c || 0), 0).toFixed(1)}
                   </div>
                   <p className="text-sm text-gray-600">Total Acres</p>
                 </div>

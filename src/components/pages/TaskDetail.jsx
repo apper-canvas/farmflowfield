@@ -36,13 +36,15 @@ const TaskDetail = () => {
       const taskData = await taskService.getById(taskId);
       setTask(taskData);
 
-      if (taskData.fieldId) {
-        const fieldData = await fieldService.getById(taskData.fieldId);
+if (taskData.field_id_c?.Id || taskData.field_id_c) {
+        const fieldId = taskData.field_id_c?.Id || taskData.field_id_c;
+        const fieldData = await fieldService.getById(fieldId);
         setField(fieldData);
       }
 
-      if (taskData.cropId) {
-        const cropData = await cropService.getById(taskData.cropId);
+if (taskData.crop_id_c?.Id || taskData.crop_id_c) {
+        const cropId = taskData.crop_id_c?.Id || taskData.crop_id_c;
+        const cropData = await cropService.getById(cropId);
         setCrop(cropData);
       }
     } catch (err) {
@@ -112,26 +114,26 @@ const TaskDetail = () => {
             </div>
             <div>
               <h1 className="text-2xl font-bold text-gray-900 mb-2">
-                {task.title}
+{task.title_c || task.title}
               </h1>
               <div className="flex items-center space-x-4 mb-3">
-                <StatusBadge 
-                  status={isOverdue ? "overdue" : task.status} 
+<StatusBadge 
+                  status={isOverdue ? "overdue" : (task.status_c || task.status)} 
                   type="task"
                 />
-                {task.priority && (
-                  <StatusBadge status={task.priority} type="priority" />
+{(task.priority_c || task.priority) && (
+                  <StatusBadge status={task.priority_c || task.priority} type="priority" />
                 )}
               </div>
               <div className="flex items-center space-x-4 text-sm text-gray-600">
                 <div className="flex items-center space-x-1">
                   <ApperIcon name="Calendar" className="w-4 h-4" />
-                  <span>Due: {format(new Date(task.dueDate), "MMMM d, yyyy 'at' h:mm a")}</span>
+<span>Due: {format(new Date(task.due_date_c || task.dueDate), "MMMM d, yyyy 'at' h:mm a")}</span>
                 </div>
-                {task.assignedTo && (
+{(task.assigned_to_c || task.assignedTo) && (
                   <div className="flex items-center space-x-1">
                     <ApperIcon name="User" className="w-4 h-4" />
-                    <span>Assigned to: {task.assignedTo}</span>
+                    <span>Assigned to: {task.assigned_to_c || task.assignedTo}</span>
                   </div>
                 )}
               </div>
@@ -169,10 +171,10 @@ const TaskDetail = () => {
       </Card>
 
       {/* Task Description */}
-      {task.description && (
+{(task.description_c || task.description) && (
         <Card className="p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-3">Description</h3>
-          <p className="text-gray-700 leading-relaxed">{task.description}</p>
+          <p className="text-gray-700 leading-relaxed">{task.description_c || task.description}</p>
         </Card>
       )}
 
@@ -189,9 +191,9 @@ const TaskDetail = () => {
                     <ApperIcon name="MapPin" className="w-5 h-5 text-secondary" />
                   </div>
                   <div>
-                    <h4 className="font-medium text-gray-900">{field.name}</h4>
+<h4 className="font-medium text-gray-900">{field.Name}</h4>
                     <p className="text-sm text-gray-600">
-                      {field.area} {field.unit} • {field.soilType}
+                      {field.area_c} {field.unit_c} • {field.soil_type_c}
                     </p>
                   </div>
                 </div>
@@ -203,9 +205,9 @@ const TaskDetail = () => {
                     <ApperIcon name="Sprout" className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <h4 className="font-medium text-gray-900">{crop.name}</h4>
+<h4 className="font-medium text-gray-900">{crop.Name}</h4>
                     <p className="text-sm text-gray-600">
-                      {crop.variety} • {crop.currentStage}
+                      {crop.variety_c} • {crop.current_stage_c}
                     </p>
                   </div>
                 </div>
@@ -220,18 +222,18 @@ const TaskDetail = () => {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-500">Category</span>
-              <span className="text-sm text-gray-900 capitalize">{task.category}</span>
+<span className="text-sm text-gray-900 capitalize">{task.category_c || task.category}</span>
             </div>
             
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-500">Priority</span>
-              <StatusBadge status={task.priority} type="priority" />
+<StatusBadge status={task.priority_c || task.priority} type="priority" />
             </div>
             
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-500">Status</span>
-              <StatusBadge 
-                status={isOverdue ? "overdue" : task.status} 
+<StatusBadge 
+                status={isOverdue ? "overdue" : (task.status_c || task.status)} 
                 type="task"
               />
             </div>
@@ -239,15 +241,15 @@ const TaskDetail = () => {
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-500">Due Date</span>
               <span className="text-sm text-gray-900">
-                {format(new Date(task.dueDate), "MMM d, yyyy")}
+{format(new Date(task.due_date_c || task.dueDate), "MMM d, yyyy")}
               </span>
             </div>
 
-            {task.completedDate && (
+{(task.completed_date_c || task.completedDate) && (
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-gray-500">Completed</span>
                 <span className="text-sm text-gray-900">
-                  {format(new Date(task.completedDate), "MMM d, yyyy 'at' h:mm a")}
+                  {format(new Date(task.completed_date_c || task.completedDate), "MMM d, yyyy 'at' h:mm a")}
                 </span>
               </div>
             )}
@@ -265,7 +267,7 @@ const TaskDetail = () => {
             <div>
               <h3 className="font-semibold text-success">Task Completed</h3>
               <p className="text-sm text-gray-600">
-                Completed on {format(new Date(task.completedDate), "MMMM d, yyyy 'at' h:mm a")}
+Completed on {format(new Date(task.completed_date_c || task.completedDate), "MMMM d, yyyy 'at' h:mm a")}
               </p>
             </div>
           </div>

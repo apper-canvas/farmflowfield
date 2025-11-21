@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import fieldService from "@/services/api/fieldService";
+import taskService from "@/services/api/taskService";
 import ApperIcon from "@/components/ApperIcon";
-import Button from "@/components/atoms/Button";
-import Select from "@/components/atoms/Select";
-import SearchBar from "@/components/molecules/SearchBar";
-import TaskCard from "@/components/molecules/TaskCard";
 import Loading from "@/components/ui/Loading";
 import ErrorView from "@/components/ui/ErrorView";
 import Empty from "@/components/ui/Empty";
-import taskService from "@/services/api/taskService";
-import fieldService from "@/services/api/fieldService";
+import Select from "@/components/atoms/Select";
+import Button from "@/components/atoms/Button";
+import SearchBar from "@/components/molecules/SearchBar";
+import TaskCard from "@/components/molecules/TaskCard";
 
 const Tasks = () => {
   const navigate = useNavigate();
@@ -50,49 +50,48 @@ const Tasks = () => {
     }
   };
 
-  const filterTasks = () => {
+const filterTasks = () => {
     let filtered = tasks.map(task => {
-      const field = fields.find(f => f.Id.toString() === task.fieldId);
+      const field = fields.find(f => f.Id.toString() === (task.field_id_c?.Id || task.field_id_c).toString());
       return {
         ...task,
-        fieldName: field?.name
+        fieldName: field?.Name || field?.name
       };
     });
-
     // Search filter
     if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
+const query = searchQuery.toLowerCase();
       filtered = filtered.filter(task =>
-        task.title.toLowerCase().includes(query) ||
-        task.description?.toLowerCase().includes(query) ||
-        task.category.toLowerCase().includes(query) ||
+        (task.title_c || task.title || '').toLowerCase().includes(query) ||
+        (task.description_c || task.description || '').toLowerCase().includes(query) ||
+        (task.category_c || task.category || '').toLowerCase().includes(query) ||
         task.fieldName?.toLowerCase().includes(query)
       );
     }
 
     // Status filter
-    if (statusFilter !== "all") {
+if (statusFilter !== "all") {
       if (statusFilter === "overdue") {
         filtered = filtered.filter(task => 
-          new Date(task.dueDate) < new Date() && task.status !== "completed"
+          new Date(task.due_date_c || task.dueDate) < new Date() && (task.status_c || task.status) !== "completed"
         );
       } else {
-        filtered = filtered.filter(task => task.status === statusFilter);
+        filtered = filtered.filter(task => (task.status_c || task.status) === statusFilter);
       }
     }
 
-    // Priority filter
+// Priority filter
     if (priorityFilter !== "all") {
-      filtered = filtered.filter(task => task.priority === priorityFilter);
+      filtered = filtered.filter(task => (task.priority_c || task.priority) === priorityFilter);
     }
 
-    // Category filter
+// Category filter
     if (categoryFilter !== "all") {
-      filtered = filtered.filter(task => task.category === categoryFilter);
+      filtered = filtered.filter(task => (task.category_c || task.category) === categoryFilter);
     }
 
-    // Sort by due date
-    filtered.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+// Sort by due date
+    filtered.sort((a, b) => new Date(a.due_date_c || a.dueDate) - new Date(b.due_date_c || b.dueDate));
 
     setFilteredTasks(filtered);
   };
@@ -104,11 +103,11 @@ const Tasks = () => {
   if (loading) return <Loading type="cards" />;
   if (error) return <ErrorView message={error} onRetry={loadTasks} />;
 
-  const pendingTasks = filteredTasks.filter(task => task.status === "pending");
+const pendingTasks = filteredTasks.filter(task => (task.status_c || task.status) === "pending");
   const overdueTasks = filteredTasks.filter(task => 
-    new Date(task.dueDate) < new Date() && task.status !== "completed"
+    new Date(task.due_date_c || task.dueDate) < new Date() && (task.status_c || task.status) !== "completed"
   );
-  const completedTasks = filteredTasks.filter(task => task.status === "completed");
+  const completedTasks = filteredTasks.filter(task => (task.status_c || task.status) === "completed");
 
   return (
     <div className="space-y-6">

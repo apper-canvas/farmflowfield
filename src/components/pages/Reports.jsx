@@ -70,8 +70,8 @@ const Reports = () => {
         return reportData.expenses;
     }
 
-    return reportData.expenses.filter(expense => {
-      const expenseDate = new Date(expense.date);
+return reportData.expenses.filter(expense => {
+      const expenseDate = new Date(expense.date_c || expense.date);
       return expenseDate >= startDate && expenseDate <= endDate;
     });
   };
@@ -80,10 +80,10 @@ const Reports = () => {
     const tasks = reportData.tasks;
     return {
       total: tasks.length,
-      completed: tasks.filter(t => t.status === "completed").length,
-      pending: tasks.filter(t => t.status === "pending").length,
+completed: tasks.filter(t => (t.status_c || t.status) === "completed").length,
+      pending: tasks.filter(t => (t.status_c || t.status) === "pending").length,
       overdue: tasks.filter(t => 
-        new Date(t.dueDate) < new Date() && t.status !== "completed"
+        new Date(t.due_date_c || t.dueDate) < new Date() && (t.status_c || t.status) !== "completed"
       ).length
     };
   };
@@ -92,8 +92,9 @@ const Reports = () => {
     const filteredExpenses = getFilteredExpenses();
     const total = filteredExpenses.reduce((sum, exp) => sum + exp.amount, 0);
     
-    const byCategory = filteredExpenses.reduce((acc, exp) => {
-      acc[exp.category] = (acc[exp.category] || 0) + exp.amount;
+const byCategory = filteredExpenses.reduce((acc, exp) => {
+      const category = exp.category_c || exp.category;
+      acc[category] = (acc[category] || 0) + (exp.amount_c || exp.amount || 0);
       return acc;
     }, {});
 
@@ -102,9 +103,12 @@ const Reports = () => {
 
   const getInventoryStats = () => {
     const items = reportData.inventory;
-    const totalValue = items.reduce((sum, item) => sum + (item.quantity * item.costPerUnit), 0);
-    const lowStockItems = items.filter(item => item.quantity <= item.reorderLevel);
-    
+const totalValue = items.reduce((sum, item) => 
+      sum + ((item.quantity_c || item.quantity || 0) * (item.cost_per_unit_c || item.costPerUnit || 0)), 0
+    );
+    const lowStockItems = items.filter(item => 
+      (item.quantity_c || item.quantity || 0) <= (item.reorder_level_c || item.reorderLevel || 0)
+    );
     return {
       totalItems: items.length,
       totalValue,
@@ -173,8 +177,8 @@ const Reports = () => {
                 {reportData.fields.length}
               </div>
               <p className="text-sm text-gray-600">Active Fields</p>
-              <p className="text-xs text-gray-500 mt-1">
-                {reportData.fields.reduce((sum, f) => sum + f.area, 0).toFixed(1)} total acres
+<p className="text-xs text-gray-500 mt-1">
+                {reportData.fields.reduce((sum, f) => sum + (f.area_c || f.area || 0), 0).toFixed(1)} total acres
               </p>
             </Card>
 

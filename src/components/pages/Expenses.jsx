@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { format, startOfMonth, endOfMonth, subMonths } from "date-fns";
+import React, { useEffect, useState } from "react";
+import { endOfMonth, format, startOfMonth, subMonths } from "date-fns";
 import { toast } from "react-toastify";
+import expenseService from "@/services/api/expenseService";
+import fieldService from "@/services/api/fieldService";
 import ApperIcon from "@/components/ApperIcon";
-import Button from "@/components/atoms/Button";
-import Input from "@/components/atoms/Input";
-import Select from "@/components/atoms/Select";
-import Card from "@/components/atoms/Card";
-import SearchBar from "@/components/molecules/SearchBar";
-import ExpenseCard from "@/components/molecules/ExpenseCard";
 import Loading from "@/components/ui/Loading";
 import ErrorView from "@/components/ui/ErrorView";
 import Empty from "@/components/ui/Empty";
-import expenseService from "@/services/api/expenseService";
-import fieldService from "@/services/api/fieldService";
+import Select from "@/components/atoms/Select";
+import Button from "@/components/atoms/Button";
+import Input from "@/components/atoms/Input";
+import Card from "@/components/atoms/Card";
+import SearchBar from "@/components/molecules/SearchBar";
+import ExpenseCard from "@/components/molecules/ExpenseCard";
 
 const Expenses = () => {
   const [expenses, setExpenses] = useState([]);
@@ -55,10 +55,10 @@ const Expenses = () => {
 
   const filterExpenses = () => {
     let filtered = expenses.map(expense => {
-      const field = fields.find(f => f.Id.toString() === expense.fieldId);
+const field = fields.find(f => f.Id.toString() === (expense.field_id_c?.Id || expense.field_id_c || '').toString());
       return {
         ...expense,
-        fieldName: field?.name
+        fieldName: field?.Name
       };
     });
 
@@ -66,16 +66,16 @@ const Expenses = () => {
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(expense =>
-        expense.description.toLowerCase().includes(query) ||
-        expense.category.toLowerCase().includes(query) ||
-        expense.fieldName?.toLowerCase().includes(query) ||
-        expense.paymentMethod.toLowerCase().includes(query)
+(expense.description_c || expense.description || '').toLowerCase().includes(query) ||
+        (expense.category_c || expense.category || '').toLowerCase().includes(query) ||
+        (expense.fieldName || '').toLowerCase().includes(query) ||
+        (expense.payment_method_c || expense.paymentMethod || '').toLowerCase().includes(query)
       );
     }
 
     // Category filter
-    if (categoryFilter !== "all") {
-      filtered = filtered.filter(expense => expense.category === categoryFilter);
+if (categoryFilter !== "all") {
+      filtered = filtered.filter(expense => (expense.category_c || expense.category) === categoryFilter);
     }
 
     // Month filter
@@ -99,15 +99,15 @@ const Expenses = () => {
       }
 
       if (startDate && endDate) {
-        filtered = filtered.filter(expense => {
-          const expenseDate = new Date(expense.date);
+filtered = filtered.filter(expense => {
+          const expenseDate = new Date(expense.date_c || expense.date);
           return expenseDate >= startDate && expenseDate <= endDate;
         });
       }
     }
 
     // Sort by date (newest first)
-    filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+filtered.sort((a, b) => new Date(b.date_c || b.date) - new Date(a.date_c || a.date));
 
     setFilteredExpenses(filtered);
   };
@@ -116,17 +116,18 @@ const Expenses = () => {
     e.preventDefault();
     
     try {
-      const formData = new FormData(e.target);
+const formData = new FormData(e.target);
       const expenseData = {
-        category: formData.get("category"),
-        amount: parseFloat(formData.get("amount")),
-        date: formData.get("date"),
-        description: formData.get("description"),
-        fieldId: formData.get("fieldId") || null,
-        paymentMethod: formData.get("paymentMethod")
+        category_c: formData.get("category"),
+        amount_c: parseFloat(formData.get("amount")),
+        date_c: formData.get("date"),
+        description_c: formData.get("description"),
+        field_id_c: formData.get("fieldId") ? parseInt(formData.get("fieldId")) : null,
+        payment_method_c: formData.get("paymentMethod"),
+        receipt_c: formData.get("receipt") // Handle file upload later
       };
 
-      if (isNaN(expenseData.amount) || expenseData.amount <= 0) {
+      if (isNaN(expenseData.amount_c) || expenseData.amount_c <= 0) {
         toast.error("Please enter a valid amount");
         return;
       }
@@ -152,9 +153,10 @@ const Expenses = () => {
   if (loading) return <Loading type="cards" />;
   if (error) return <ErrorView message={error} onRetry={loadExpenses} />;
 
-  const totalExpenses = filteredExpenses.reduce((total, expense) => total + expense.amount, 0);
+const totalExpenses = filteredExpenses.reduce((total, expense) => total + (expense.amount_c || expense.amount || 0), 0);
   const categorySummary = filteredExpenses.reduce((acc, expense) => {
-    acc[expense.category] = (acc[expense.category] || 0) + expense.amount;
+    const category = expense.category_c || expense.category;
+    acc[category] = (acc[category] || 0) + (expense.amount_c || expense.amount || 0);
     return acc;
   }, {});
 
@@ -323,8 +325,8 @@ const Expenses = () => {
               <div className="space-y-4">
                 <Select
                   name="category"
-                  label="Category"
-                  defaultValue={editingExpense?.category || ""}
+label="Category"
+                  defaultValue={editingExpense?.category_c || editingExpense?.category || ""}
                   required
                 >
                   <option value="">Select category</option>
@@ -341,7 +343,7 @@ const Expenses = () => {
                   type="number"
                   step="0.01"
                   min="0"
-                  defaultValue={editingExpense?.amount || ""}
+                  defaultValue={editingExpense?.amount_c || editingExpense?.amount || ""}
                   required
                   placeholder="0.00"
                 />
@@ -349,8 +351,8 @@ const Expenses = () => {
                 <Input
                   name="date"
                   label="Date"
-                  type="date"
-                  defaultValue={editingExpense?.date ? format(new Date(editingExpense.date), "yyyy-MM-dd") : format(new Date(), "yyyy-MM-dd")}
+type="date"
+                  defaultValue={editingExpense?.date_c || editingExpense?.date ? format(new Date(editingExpense.date_c || editingExpense.date), "yyyy-MM-dd") : format(new Date(), "yyyy-MM-dd")}
                   required
                 />
 
@@ -358,7 +360,7 @@ const Expenses = () => {
                   name="description"
                   label="Description"
                   type="text"
-                  defaultValue={editingExpense?.description || ""}
+                  defaultValue={editingExpense?.description_c || editingExpense?.description || ""}
                   required
                   placeholder="Brief description of the expense"
                 />
@@ -366,20 +368,20 @@ const Expenses = () => {
                 <Select
                   name="fieldId"
                   label="Associated Field (Optional)"
-                  defaultValue={editingExpense?.fieldId || ""}
+                  defaultValue={editingExpense?.field_id_c?.Id || editingExpense?.field_id_c || editingExpense?.fieldId || ""}
                 >
                   <option value="">No specific field</option>
                   {fields.map(field => (
-                    <option key={field.Id} value={field.Id}>
-                      {field.name}
+<option key={field.Id} value={field.Id}>
+                      {field.Name}
                     </option>
                   ))}
                 </Select>
 
                 <Select
-                  name="paymentMethod"
+name="paymentMethod"
                   label="Payment Method"
-                  defaultValue={editingExpense?.paymentMethod || ""}
+                  defaultValue={editingExpense?.payment_method_c || editingExpense?.paymentMethod || ""}
                   required
                 >
                   <option value="">Select payment method</option>

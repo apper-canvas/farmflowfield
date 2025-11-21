@@ -1,24 +1,26 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import TopNavigation from "@/components/organisms/TopNavigation";
+import UserMenu from "@/components/organisms/UserMenu";
 import BottomNavigation from "@/components/organisms/BottomNavigation";
 import SyncStatusBanner from "@/components/organisms/SyncStatusBanner";
+import TopNavigation from "@/components/organisms/TopNavigation";
 
-const Layout = () => {
+function Layout() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
+      <TopNavigation 
+        title="FarmFlow"
+        actions={<UserMenu />}
+      />
       <SyncStatusBanner />
-      <TopNavigation />
       
-      <main className="pb-20 pt-4">
-        <div className="px-4">
-          <Outlet />
-        </div>
+      <main className="flex-1 pb-20 lg:pb-0">
+        <Outlet />
       </main>
       
       <BottomNavigation />
     </div>
-  );
-};
+);
+}
 
 export default Layout;

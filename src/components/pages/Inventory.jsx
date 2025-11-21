@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import inventoryService from "@/services/api/inventoryService";
 import ApperIcon from "@/components/ApperIcon";
-import Button from "@/components/atoms/Button";
-import Input from "@/components/atoms/Input";
-import Select from "@/components/atoms/Select";
-import Card from "@/components/atoms/Card";
-import SearchBar from "@/components/molecules/SearchBar";
-import InventoryCard from "@/components/molecules/InventoryCard";
 import Loading from "@/components/ui/Loading";
 import ErrorView from "@/components/ui/ErrorView";
 import Empty from "@/components/ui/Empty";
-import inventoryService from "@/services/api/inventoryService";
+import Select from "@/components/atoms/Select";
+import Button from "@/components/atoms/Button";
+import Input from "@/components/atoms/Input";
+import Card from "@/components/atoms/Card";
+import SearchBar from "@/components/molecules/SearchBar";
+import InventoryCard from "@/components/molecules/InventoryCard";
 
 const Inventory = () => {
   const [items, setItems] = useState([]);
@@ -52,30 +52,29 @@ const Inventory = () => {
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(item =>
-        item.name.toLowerCase().includes(query) ||
-        item.category.toLowerCase().includes(query) ||
-        item.supplier?.toLowerCase().includes(query)
+(item.Name || '').toLowerCase().includes(query) ||
+        (item.category_c || item.category || '').toLowerCase().includes(query) ||
+        (item.supplier_c || item.supplier || '').toLowerCase().includes(query)
       );
     }
-
-    // Category filter
+// Category filter
     if (categoryFilter !== "all") {
-      filtered = filtered.filter(item => item.category === categoryFilter);
+      filtered = filtered.filter(item => (item.category_c || item.category) === categoryFilter);
     }
 
     // Stock filter
     if (stockFilter !== "all") {
       if (stockFilter === "low") {
-        filtered = filtered.filter(item => item.quantity <= item.reorderLevel);
+        filtered = filtered.filter(item => (item.quantity_c || 0) <= (item.reorder_level_c || 0));
       } else if (stockFilter === "good") {
-        filtered = filtered.filter(item => item.quantity > item.reorderLevel);
+        filtered = filtered.filter(item => (item.quantity_c || 0) > (item.reorder_level_c || 0));
       }
     }
 
     // Sort by stock level (low stock first)
-    filtered.sort((a, b) => {
-      const aRatio = a.quantity / a.reorderLevel;
-      const bRatio = b.quantity / b.reorderLevel;
+filtered.sort((a, b) => {
+      const aRatio = (a.quantity_c || 0) / (a.reorder_level_c || 1);
+      const bRatio = (b.quantity_c || 0) / (b.reorder_level_c || 1);
       return aRatio - bRatio;
     });
 
@@ -101,13 +100,13 @@ const Inventory = () => {
         return;
       }
 
-      await inventoryService.updateQuantity(editingItem.Id, newQuantity);
+await inventoryService.updateQuantity(editingItem.Id, newQuantity);
       
       // Update local state
       setItems(prevItems =>
         prevItems.map(item =>
           item.Id === editingItem.Id
-            ? { ...item, quantity: newQuantity, lastRestocked: new Date().toISOString() }
+            ? { ...item, quantity_c: newQuantity, last_restocked_c: new Date().toISOString() }
             : item
         )
       );
@@ -123,10 +122,10 @@ const Inventory = () => {
   if (loading) return <Loading type="cards" />;
   if (error) return <ErrorView message={error} onRetry={loadInventory} />;
 
-  const lowStockItems = items.filter(item => item.quantity <= item.reorderLevel);
-  const totalValue = items.reduce((total, item) => total + (item.quantity * item.costPerUnit), 0);
+const lowStockItems = items.filter(item => (item.quantity_c || 0) <= (item.reorder_level_c || 0));
+const totalValue = items.reduce((total, item) => total + ((item.quantity_c || 0) * (item.cost_per_unit_c || 0)), 0);
 
-  const categories = [...new Set(items.map(item => item.category))];
+const categories = [...new Set(items.map(item => item.category_c || item.category).filter(Boolean))];
 
   return (
     <div className="space-y-6">
@@ -227,9 +226,9 @@ const Inventory = () => {
                 {lowStockItems.length} items are below reorder level and need restocking.
               </p>
               <div className="flex flex-wrap gap-2">
-                {lowStockItems.slice(0, 3).map(item => (
+{lowStockItems.slice(0, 3).map(item => (
                   <span key={item.Id} className="text-xs bg-error/10 text-error px-2 py-1 rounded">
-                    {item.name}
+                    {item.Name}
                   </span>
                 ))}
                 {lowStockItems.length > 3 && (
@@ -288,12 +287,12 @@ const Inventory = () => {
 
               <div className="space-y-4">
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-1">{editingItem.name}</h4>
+<h4 className="font-medium text-gray-900 mb-1">{editingItem.Name}</h4>
                   <p className="text-sm text-gray-600">
-                    Current: {editingItem.quantity} {editingItem.unit}
+                    Current: {editingItem.quantity_c || 0} {editingItem.unit_c}
                   </p>
                   <p className="text-sm text-gray-500">
-                    Reorder level: {editingItem.reorderLevel} {editingItem.unit}
+                    Reorder level: {editingItem.reorder_level_c || 0} {editingItem.unit_c}
                   </p>
                 </div>
 
@@ -301,10 +300,10 @@ const Inventory = () => {
                   name="quantity"
                   label="New Quantity"
                   type="number"
-                  defaultValue={editingItem.quantity}
+defaultValue={editingItem.quantity_c || 0}
                   min="0"
                   required
-                  placeholder={`Enter quantity in ${editingItem.unit}`}
+                  placeholder={`Enter quantity in ${editingItem.unit_c || editingItem.unit || 'units'}`}
                 />
 
                 <div className="flex space-x-3">

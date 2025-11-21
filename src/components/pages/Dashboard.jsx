@@ -59,21 +59,21 @@ const Dashboard = () => {
   if (loading) return <Loading type="cards" />;
   if (error) return <ErrorView message={error} onRetry={loadDashboardData} />;
 
-  const pendingTasks = dashboardData.tasks.filter(task => task.status === "pending");
+const pendingTasks = dashboardData.tasks.filter(task => (task.status_c || task.status) === "pending");
   const overdueTasks = dashboardData.tasks.filter(task => 
-    new Date(task.dueDate) < new Date() && task.status !== "completed"
+    new Date(task.due_date_c || task.dueDate) < new Date() && (task.status_c || task.status) !== "completed"
   );
   const lowStockItems = dashboardData.inventory.filter(item => 
-    item.quantity <= item.reorderLevel
+    (item.quantity_c || item.quantity || 0) <= (item.reorder_level_c || item.reorderLevel || 0)
   );
   const thisMonthExpenses = dashboardData.expenses
     .filter(expense => {
-      const expenseDate = new Date(expense.date);
+      const expenseDate = new Date(expense.date_c || expense.date);
       const now = new Date();
       return expenseDate.getMonth() === now.getMonth() && 
              expenseDate.getFullYear() === now.getFullYear();
     })
-    .reduce((total, expense) => total + expense.amount, 0);
+    .reduce((total, expense) => total + (expense.amount_c || expense.amount || 0), 0);
 
   const quickActions = [
     {

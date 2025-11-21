@@ -40,8 +40,9 @@ const FieldDetail = () => {
       setField(fieldData);
       setTasks(tasksData);
 
-      if (fieldData.cropId) {
-        const cropData = await cropService.getById(fieldData.cropId);
+if (fieldData.crop_id_c?.Id || fieldData.crop_id_c) {
+        const cropId = fieldData.crop_id_c?.Id || fieldData.crop_id_c;
+        const cropData = await cropService.getById(cropId);
         setCrop(cropData);
       }
     } catch (err) {
@@ -55,9 +56,10 @@ const FieldDetail = () => {
   if (error) return <ErrorView message={error} onRetry={loadFieldDetails} />;
   if (!field) return <ErrorView title="Field not found" message="The requested field could not be found." />;
 
-  const completedStages = crop?.stages?.filter(stage => stage.completed) || [];
-  const currentStageIndex = crop?.stages?.findIndex(stage => !stage.completed) || 0;
-  const progressPercentage = crop?.stages ? (completedStages.length / crop.stages.length) * 100 : 0;
+const stages = crop?.stages_c ? JSON.parse(crop.stages_c) : crop?.stages || [];
+  const completedStages = stages.filter(stage => stage.completed) || [];
+  const currentStageIndex = stages.findIndex(stage => !stage.completed) || 0;
+  const progressPercentage = stages.length ? (completedStages.length / stages.length) * 100 : 0;
 
   return (
     <div className="space-y-6">
@@ -81,13 +83,13 @@ const FieldDetail = () => {
               <ApperIcon name="Square" className="w-8 h-8 text-secondary" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">{field.name}</h1>
+<h1 className="text-2xl font-bold text-gray-900">{field.Name}</h1>
               <p className="text-gray-600">
-                {field.area} {field.unit} • {field.soilType}
+                {field.area_c} {field.unit_c} • {field.soil_type_c}
               </p>
               {crop && (
-                <Badge variant="primary" className="mt-2">
-                  {crop.name} - {crop.variety}
+<Badge variant="primary" className="mt-2">
+                  {crop.Name} - {crop.variety_c}
                 </Badge>
               )}
             </div>
@@ -114,7 +116,7 @@ const FieldDetail = () => {
             <ApperIcon name="Map" className="w-12 h-12 text-primary mx-auto mb-3" />
             <h4 className="font-medium text-gray-900 mb-2">GPS Field Mapping</h4>
             <p className="text-gray-600 text-sm">
-              Interactive field boundaries with {field.coordinates?.length || 0} GPS points
+Interactive field boundaries with {field.coordinates_c || 0} GPS points
             </p>
           </div>
         </div>
@@ -140,7 +142,7 @@ const FieldDetail = () => {
 
           {/* Timeline */}
           <div className="space-y-4">
-            {crop.stages?.map((stage, index) => (
+{stages.map((stage, index) => (
               <div
                 key={index}
                 className={`flex items-start space-x-4 p-4 rounded-lg ${
