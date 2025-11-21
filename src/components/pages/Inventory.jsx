@@ -20,9 +20,18 @@ const Inventory = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [stockFilter, setStockFilter] = useState("all");
-  const [editingItem, setEditingItem] = useState(null);
+const [editingItem, setEditingItem] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
-
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newItem, setNewItem] = useState({
+    Name: '',
+    category_c: '',
+    quantity_c: 0,
+    unit_c: '',
+    cost_per_unit_c: 0,
+    supplier_c: '',
+    reorder_level_c: 0
+  });
   useEffect(() => {
     loadInventory();
   }, []);
@@ -118,7 +127,52 @@ await inventoryService.updateQuantity(editingItem.Id, newQuantity);
       toast.error("Failed to update inventory");
     }
   };
+const handleAddItem = async (e) => {
+    e.preventDefault();
+    
+    try {
+      const formData = new FormData(e.target);
+      const itemData = {
+        Name: formData.get("name")?.trim(),
+        category_c: formData.get("category")?.trim(),
+        quantity_c: parseInt(formData.get("quantity")) || 0,
+        unit_c: formData.get("unit")?.trim(),
+        cost_per_unit_c: parseFloat(formData.get("cost")) || 0,
+        supplier_c: formData.get("supplier")?.trim(),
+        reorder_level_c: parseInt(formData.get("reorderLevel")) || 0
+      };
 
+      // Basic validation
+      if (!itemData.Name) {
+        toast.error("Item name is required");
+        return;
+      }
+      if (!itemData.category_c) {
+        toast.error("Category is required");
+        return;
+      }
+
+      const createdItem = await inventoryService.create(itemData);
+      
+      // Update local state
+      setItems(prevItems => [...prevItems, createdItem]);
+      
+      // Reset form and close modal
+      setNewItem({
+        Name: '',
+        category_c: '',
+        quantity_c: 0,
+        unit_c: '',
+        cost_per_unit_c: 0,
+        supplier_c: '',
+        reorder_level_c: 0
+      });
+      setShowAddModal(false);
+      toast.success("Item added successfully!");
+    } catch (err) {
+      toast.error("Failed to add item");
+    }
+  };
   if (loading) return <Loading type="cards" />;
   if (error) return <ErrorView message={error} onRetry={loadInventory} />;
 
@@ -136,7 +190,7 @@ const categories = [...new Set(items.map(item => item.category_c || item.categor
           <p className="text-gray-600">Manage your farm supplies and equipment</p>
         </div>
         
-        <Button>
+<Button onClick={() => setShowAddModal(true)}>
           <ApperIcon name="Plus" className="w-4 h-4 mr-2" />
           Add Item
         </Button>
@@ -252,7 +306,7 @@ const categories = [...new Set(items.map(item => item.category_c || item.categor
             "Start by adding your first inventory item to keep track of seeds, fertilizers, tools, and equipment."
           }
           actionLabel="Add First Item"
-          onAction={() => {}}
+onAction={() => setShowAddModal(true)}
           showAction={!searchQuery && categoryFilter === "all" && stockFilter === "all"}
         />
       ) : (
@@ -314,6 +368,112 @@ defaultValue={editingItem.quantity_c || 0}
                     type="button"
                     variant="outline" 
                     onClick={() => setShowEditModal(false)}
+                    className="flex-1"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            </form>
+          </Card>
+</Card>
+        </div>
+      )}
+
+      {/* Add Item Modal */}
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <Card className="w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <form onSubmit={handleAddItem} className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Add New Item
+                </h3>
+                <button
+                  type="button"
+                  onClick={() => setShowAddModal(false)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <ApperIcon name="X" className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <Input
+                  name="name"
+                  label="Item Name"
+                  type="text"
+                  required
+                  placeholder="Enter item name"
+                />
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Category
+                  </label>
+                  <Select name="category" required>
+                    <option value="">Select category</option>
+                    <option value="seeds">Seeds</option>
+                    <option value="fertilizers">Fertilizers</option>
+                    <option value="tools">Tools</option>
+                    <option value="equipment">Equipment</option>
+                    <option value="pesticides">Pesticides</option>
+                    <option value="supplies">Supplies</option>
+                  </Select>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <Input
+                    name="quantity"
+                    label="Quantity"
+                    type="number"
+                    min="0"
+                    defaultValue="0"
+                    placeholder="0"
+                  />
+
+                  <Input
+                    name="unit"
+                    label="Unit"
+                    type="text"
+                    placeholder="kg, lbs, pcs"
+                  />
+                </div>
+
+                <Input
+                  name="cost"
+                  label="Cost per Unit ($)"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  defaultValue="0"
+                  placeholder="0.00"
+                />
+
+                <Input
+                  name="supplier"
+                  label="Supplier"
+                  type="text"
+                  placeholder="Supplier name"
+                />
+
+                <Input
+                  name="reorderLevel"
+                  label="Reorder Level"
+                  type="number"
+                  min="0"
+                  defaultValue="0"
+                  placeholder="Minimum stock level"
+                />
+
+                <div className="flex space-x-3">
+                  <Button type="submit" className="flex-1">
+                    <ApperIcon name="Plus" className="w-4 h-4 mr-2" />
+                    Add Item
+                  </Button>
+                  <Button 
+                    type="button"
+                    variant="outline" 
+                    onClick={() => setShowAddModal(false)}
                     className="flex-1"
                   >
                     Cancel
