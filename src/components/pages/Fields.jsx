@@ -9,7 +9,7 @@ import Empty from "@/components/ui/Empty";
 import Button from "@/components/atoms/Button";
 import SearchBar from "@/components/molecules/SearchBar";
 import FieldCard from "@/components/molecules/FieldCard";
-import FieldForm from "@/components/forms/FieldForm";
+import FieldForm from "@/components/molecules/FieldForm";
 
 const Fields = () => {
   const navigate = useNavigate();
