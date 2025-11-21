@@ -220,4 +220,3 @@ class WeatherService {
 }
 
 export default new WeatherService();
-export default new WeatherService();
