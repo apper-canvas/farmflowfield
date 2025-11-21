@@ -1,0 +1,230 @@
+[
+  {
+    "Id": 1,
+    "name": "Corn",
+    "variety": "Sweet Corn Hybrid",
+    "fieldId": "1",
+    "plantingDate": "2024-04-15T06:00:00Z",
+    "expectedHarvestDate": "2024-08-20T18:00:00Z",
+    "currentStage": "Vegetative Growth",
+    "stages": [
+      {
+        "name": "Planting",
+        "startDate": "2024-04-15T06:00:00Z",
+        "endDate": "2024-04-20T18:00:00Z",
+        "completed": true
+      },
+      {
+        "name": "Germination",
+        "startDate": "2024-04-21T06:00:00Z", 
+        "endDate": "2024-05-05T18:00:00Z",
+        "completed": true
+      },
+      {
+        "name": "Vegetative Growth",
+        "startDate": "2024-05-06T06:00:00Z",
+        "endDate": "2024-07-15T18:00:00Z",
+        "completed": false
+      },
+      {
+        "name": "Reproductive Stage",
+        "startDate": "2024-07-16T06:00:00Z",
+        "endDate": "2024-08-10T18:00:00Z",
+        "completed": false
+      },
+      {
+        "name": "Harvest",
+        "startDate": "2024-08-11T06:00:00Z",
+        "endDate": "2024-08-20T18:00:00Z",
+        "completed": false
+      }
+    ],
+    "status": "active"
+  },
+  {
+    "Id": 2,
+    "name": "Soybeans",
+    "variety": "Early Maturity",
+    "fieldId": "2",
+    "plantingDate": "2024-05-01T06:00:00Z",
+    "expectedHarvestDate": "2024-09-15T18:00:00Z",
+    "currentStage": "Flowering",
+    "stages": [
+      {
+        "name": "Planting",
+        "startDate": "2024-05-01T06:00:00Z",
+        "endDate": "2024-05-05T18:00:00Z",
+        "completed": true
+      },
+      {
+        "name": "Emergence",
+        "startDate": "2024-05-06T06:00:00Z",
+        "endDate": "2024-05-20T18:00:00Z",
+        "completed": true
+      },
+      {
+        "name": "Vegetative Growth",
+        "startDate": "2024-05-21T06:00:00Z",
+        "endDate": "2024-07-01T18:00:00Z",
+        "completed": true
+      },
+      {
+        "name": "Flowering",
+        "startDate": "2024-07-02T06:00:00Z",
+        "endDate": "2024-08-15T18:00:00Z",
+        "completed": false
+      },
+      {
+        "name": "Harvest",
+        "startDate": "2024-08-16T06:00:00Z",
+        "endDate": "2024-09-15T18:00:00Z",
+        "completed": false
+      }
+    ],
+    "status": "active"
+  },
+  {
+    "Id": 3,
+    "name": "Wheat",
+    "variety": "Winter Wheat",
+    "fieldId": "3",
+    "plantingDate": "2023-10-15T06:00:00Z",
+    "expectedHarvestDate": "2024-07-01T18:00:00Z",
+    "currentStage": "Grain Filling",
+    "stages": [
+      {
+        "name": "Planting",
+        "startDate": "2023-10-15T06:00:00Z",
+        "endDate": "2023-10-20T18:00:00Z",
+        "completed": true
+      },
+      {
+        "name": "Germination",
+        "startDate": "2023-10-21T06:00:00Z",
+        "endDate": "2023-11-10T18:00:00Z",
+        "completed": true
+      },
+      {
+        "name": "Tillering",
+        "startDate": "2023-11-11T06:00:00Z",
+        "endDate": "2024-03-15T18:00:00Z",
+        "completed": true
+      },
+      {
+        "name": "Stem Extension",
+        "startDate": "2024-03-16T06:00:00Z",
+        "endDate": "2024-05-15T18:00:00Z",
+        "completed": true
+      },
+      {
+        "name": "Grain Filling",
+        "startDate": "2024-05-16T06:00:00Z",
+        "endDate": "2024-06-20T18:00:00Z",
+        "completed": false
+      },
+      {
+        "name": "Harvest",
+        "startDate": "2024-06-21T06:00:00Z",
+        "endDate": "2024-07-01T18:00:00Z",
+        "completed": false
+      }
+    ],
+    "status": "active"
+  },
+  {
+    "Id": 4,
+    "name": "Tomatoes",
+    "variety": "Cherry Tomato",
+    "fieldId": "4",
+    "plantingDate": "2024-04-01T06:00:00Z",
+    "expectedHarvestDate": "2024-08-30T18:00:00Z",
+    "currentStage": "Fruit Development",
+    "stages": [
+      {
+        "name": "Transplanting",
+        "startDate": "2024-04-01T06:00:00Z",
+        "endDate": "2024-04-05T18:00:00Z",
+        "completed": true
+      },
+      {
+        "name": "Establishment",
+        "startDate": "2024-04-06T06:00:00Z",
+        "endDate": "2024-04-20T18:00:00Z",
+        "completed": true
+      },
+      {
+        "name": "Vegetative Growth",
+        "startDate": "2024-04-21T06:00:00Z",
+        "endDate": "2024-06-01T18:00:00Z",
+        "completed": true
+      },
+      {
+        "name": "Flowering",
+        "startDate": "2024-06-02T06:00:00Z",
+        "endDate": "2024-07-01T18:00:00Z",
+        "completed": true
+      },
+      {
+        "name": "Fruit Development",
+        "startDate": "2024-07-02T06:00:00Z",
+        "endDate": "2024-08-15T18:00:00Z",
+        "completed": false
+      },
+      {
+        "name": "Harvest",
+        "startDate": "2024-08-16T06:00:00Z",
+        "endDate": "2024-08-30T18:00:00Z",
+        "completed": false
+      }
+    ],
+    "status": "active"
+  },
+  {
+    "Id": 5,
+    "name": "Potatoes",
+    "variety": "Russet",
+    "fieldId": "5",
+    "plantingDate": "2024-03-20T06:00:00Z",
+    "expectedHarvestDate": "2024-08-10T18:00:00Z",
+    "currentStage": "Tuber Formation",
+    "stages": [
+      {
+        "name": "Planting",
+        "startDate": "2024-03-20T06:00:00Z",
+        "endDate": "2024-03-25T18:00:00Z",
+        "completed": true
+      },
+      {
+        "name": "Emergence",
+        "startDate": "2024-03-26T06:00:00Z",
+        "endDate": "2024-04-15T18:00:00Z",
+        "completed": true
+      },
+      {
+        "name": "Vegetative Growth",
+        "startDate": "2024-04-16T06:00:00Z",
+        "endDate": "2024-06-01T18:00:00Z",
+        "completed": true
+      },
+      {
+        "name": "Tuber Formation",
+        "startDate": "2024-06-02T06:00:00Z",
+        "endDate": "2024-07-20T18:00:00Z",
+        "completed": false
+      },
+      {
+        "name": "Tuber Bulking",
+        "startDate": "2024-07-21T06:00:00Z",
+        "endDate": "2024-08-05T18:00:00Z",
+        "completed": false
+      },
+      {
+        "name": "Harvest",
+        "startDate": "2024-08-06T06:00:00Z",
+        "endDate": "2024-08-10T18:00:00Z",
+        "completed": false
+      }
+    ],
+    "status": "active"
+  }
+]

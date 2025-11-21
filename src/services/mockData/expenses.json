@@ -1,0 +1,152 @@
+[
+  {
+    "Id": 1,
+    "category": "labor",
+    "amount": 2400.00,
+    "date": "2024-06-15T00:00:00Z",
+    "description": "Seasonal workers for planting season - 3 workers x 5 days",
+    "fieldId": "1",
+    "paymentMethod": "check",
+    "receipt": null
+  },
+  {
+    "Id": 2,
+    "category": "inputs",
+    "amount": 1350.75,
+    "date": "2024-06-10T00:00:00Z",
+    "description": "Fertilizer purchase - Nitrogen and Phosphorus blend",
+    "fieldId": "2",
+    "paymentMethod": "credit",
+    "receipt": "receipt_001.pdf"
+  },
+  {
+    "Id": 3,
+    "category": "equipment",
+    "amount": 450.00,
+    "date": "2024-06-08T00:00:00Z",
+    "description": "Tractor maintenance and oil change",
+    "fieldId": null,
+    "paymentMethod": "cash",
+    "receipt": "receipt_002.pdf"
+  },
+  {
+    "Id": 4,
+    "category": "utilities",
+    "amount": 285.50,
+    "date": "2024-06-05T00:00:00Z",
+    "description": "Electricity bill for irrigation pumps",
+    "fieldId": "3",
+    "paymentMethod": "debit",
+    "receipt": null
+  },
+  {
+    "Id": 5,
+    "category": "fuel",
+    "amount": 650.25,
+    "date": "2024-06-12T00:00:00Z",
+    "description": "Diesel fuel for tractors and equipment",
+    "fieldId": null,
+    "paymentMethod": "credit",
+    "receipt": "receipt_003.pdf"
+  },
+  {
+    "Id": 6,
+    "category": "inputs",
+    "amount": 875.00,
+    "date": "2024-06-07T00:00:00Z",
+    "description": "Pesticide and herbicide application",
+    "fieldId": "1",
+    "paymentMethod": "check",
+    "receipt": "receipt_004.pdf"
+  },
+  {
+    "Id": 7,
+    "category": "labor",
+    "amount": 1800.00,
+    "date": "2024-06-14T00:00:00Z",
+    "description": "Harvest preparation crew - 4 workers x 3 days",
+    "fieldId": "4",
+    "paymentMethod": "check",
+    "receipt": null
+  },
+  {
+    "Id": 8,
+    "category": "maintenance",
+    "amount": 325.75,
+    "date": "2024-06-09T00:00:00Z",
+    "description": "Irrigation system repair and parts replacement",
+    "fieldId": "5",
+    "paymentMethod": "debit",
+    "receipt": "receipt_005.pdf"
+  },
+  {
+    "Id": 9,
+    "category": "inputs",
+    "amount": 450.50,
+    "date": "2024-06-11T00:00:00Z",
+    "description": "Organic seeds for next season planting",
+    "fieldId": "2",
+    "paymentMethod": "credit",
+    "receipt": "receipt_006.pdf"
+  },
+  {
+    "Id": 10,
+    "category": "utilities",
+    "amount": 195.25,
+    "date": "2024-06-13T00:00:00Z",
+    "description": "Water usage charges for irrigation",
+    "fieldId": null,
+    "paymentMethod": "debit",
+    "receipt": null
+  },
+  {
+    "Id": 11,
+    "category": "equipment",
+    "amount": 1250.00,
+    "date": "2024-05-28T00:00:00Z",
+    "description": "New irrigation controller system",
+    "fieldId": "3",
+    "paymentMethod": "check",
+    "receipt": "receipt_007.pdf"
+  },
+  {
+    "Id": 12,
+    "category": "labor",
+    "amount": 900.00,
+    "date": "2024-05-25T00:00:00Z",
+    "description": "Soil testing and analysis services",
+    "fieldId": null,
+    "paymentMethod": "credit",
+    "receipt": "receipt_008.pdf"
+  },
+  {
+    "Id": 13,
+    "category": "fuel",
+    "amount": 425.75,
+    "date": "2024-05-30T00:00:00Z",
+    "description": "Gasoline for small equipment and generators",
+    "fieldId": null,
+    "paymentMethod": "cash",
+    "receipt": null
+  },
+  {
+    "Id": 14,
+    "category": "maintenance",
+    "amount": 185.50,
+    "date": "2024-06-02T00:00:00Z",
+    "description": "Tool sharpening and equipment calibration",
+    "fieldId": null,
+    "paymentMethod": "debit",
+    "receipt": "receipt_009.pdf"
+  },
+  {
+    "Id": 15,
+    "category": "inputs",
+    "amount": 750.25,
+    "date": "2024-06-16T00:00:00Z",
+    "description": "Micronutrient supplements and soil conditioner",
+    "fieldId": "5",
+    "paymentMethod": "credit",
+    "receipt": "receipt_010.pdf"
+  }
+]

@@ -1,0 +1,134 @@
+[
+  {
+    "Id": 1,
+    "name": "Corn Seeds - Hybrid Variety",
+    "category": "seeds",
+    "quantity": 150,
+    "unit": "lbs",
+    "reorderLevel": 50,
+    "costPerUnit": 8.50,
+    "supplier": "AgriSeeds Co.",
+    "lastRestocked": "2024-03-15T10:30:00Z"
+  },
+  {
+    "Id": 2,
+    "name": "Nitrogen Fertilizer (46-0-0)",
+    "category": "fertilizer",
+    "quantity": 25,
+    "unit": "bags",
+    "reorderLevel": 30,
+    "costPerUnit": 45.00,
+    "supplier": "FarmNutrients Inc.",
+    "lastRestocked": "2024-04-02T14:15:00Z"
+  },
+  {
+    "Id": 3,
+    "name": "Glyphosate Herbicide",
+    "category": "pesticide",
+    "quantity": 12,
+    "unit": "gallons",
+    "reorderLevel": 15,
+    "costPerUnit": 25.75,
+    "supplier": "CropProtect Ltd.",
+    "lastRestocked": "2024-03-28T09:45:00Z"
+  },
+  {
+    "Id": 4,
+    "name": "Tomato Stakes",
+    "category": "tools",
+    "quantity": 500,
+    "unit": "pieces",
+    "reorderLevel": 100,
+    "costPerUnit": 2.25,
+    "supplier": "Garden Supply Pro",
+    "lastRestocked": "2024-04-10T11:20:00Z"
+  },
+  {
+    "Id": 5,
+    "name": "Irrigation Pipes (4 inch)",
+    "category": "equipment",
+    "quantity": 8,
+    "unit": "lengths",
+    "reorderLevel": 5,
+    "costPerUnit": 85.00,
+    "supplier": "WaterFlow Systems",
+    "lastRestocked": "2024-02-20T16:30:00Z"
+  },
+  {
+    "Id": 6,
+    "name": "Diesel Fuel",
+    "category": "fuel",
+    "quantity": 450,
+    "unit": "gallons",
+    "reorderLevel": 200,
+    "costPerUnit": 3.25,
+    "supplier": "Rural Energy Co.",
+    "lastRestocked": "2024-05-01T08:00:00Z"
+  },
+  {
+    "Id": 7,
+    "name": "Phosphorus Fertilizer (0-46-0)",
+    "category": "fertilizer",
+    "quantity": 18,
+    "unit": "bags",
+    "reorderLevel": 20,
+    "costPerUnit": 52.00,
+    "supplier": "FarmNutrients Inc.",
+    "lastRestocked": "2024-04-15T13:45:00Z"
+  },
+  {
+    "Id": 8,
+    "name": "Fungicide Spray",
+    "category": "pesticide",
+    "quantity": 6,
+    "unit": "quarts",
+    "reorderLevel": 8,
+    "costPerUnit": 35.50,
+    "supplier": "CropProtect Ltd.",
+    "lastRestocked": "2024-03-22T12:15:00Z"
+  },
+  {
+    "Id": 9,
+    "name": "Soybean Seeds - Non-GMO",
+    "category": "seeds",
+    "quantity": 200,
+    "unit": "lbs",
+    "reorderLevel": 75,
+    "costPerUnit": 12.00,
+    "supplier": "OrganicSeeds Direct",
+    "lastRestocked": "2024-04-08T07:30:00Z"
+  },
+  {
+    "Id": 10,
+    "name": "Tractor Oil (15W-40)",
+    "category": "fuel",
+    "quantity": 24,
+    "unit": "quarts",
+    "reorderLevel": 15,
+    "costPerUnit": 8.75,
+    "supplier": "Equipment Care Inc.",
+    "lastRestocked": "2024-04-25T15:20:00Z"
+  },
+  {
+    "Id": 11,
+    "name": "Harvest Containers",
+    "category": "tools",
+    "quantity": 45,
+    "unit": "boxes",
+    "reorderLevel": 20,
+    "costPerUnit": 15.25,
+    "supplier": "Farm Storage Solutions",
+    "lastRestocked": "2024-05-05T10:10:00Z"
+  },
+  {
+    "Id": 12,
+    "name": "Drip Irrigation Tubing",
+    "category": "equipment",
+    "quantity": 2000,
+    "unit": "feet",
+    "reorderLevel": 500,
+    "costPerUnit": 0.45,
+    "supplier": "WaterFlow Systems",
+    "lastRestocked": "2024-03-12T14:00:00Z"
+  }
+]
