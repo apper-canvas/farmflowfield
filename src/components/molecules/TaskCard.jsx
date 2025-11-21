@@ -61,10 +61,15 @@ const TaskCard = ({ task }) => {
         </p>
       )}
 
-      <div className="flex items-center justify-between text-sm text-gray-500">
+<div className="flex items-center justify-between text-sm text-gray-500">
         <div className="flex items-center space-x-1">
           <ApperIcon name="Calendar" className="w-4 h-4" />
-          <span>Due: {format(new Date(task.dueDate), "MMM d, yyyy")}</span>
+          <span>
+            Due: {task.dueDate && !isNaN(new Date(task.dueDate).getTime()) 
+              ? format(new Date(task.dueDate), "MMM d, yyyy")
+              : "No due date"
+            }
+          </span>
         </div>
         
         {task.priority && (
