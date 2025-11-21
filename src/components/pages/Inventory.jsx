@@ -374,13 +374,13 @@ defaultValue={editingItem.quantity_c || 0}
                   </Button>
                 </div>
               </div>
-            </form>
+</form>
           </Card>
-</Card>
         </div>
       )}
 
       {/* Add Item Modal */}
+      {showAddModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <Card className="w-full max-w-md max-h-[90vh] overflow-y-auto">
             <form onSubmit={handleAddItem} className="p-6">
