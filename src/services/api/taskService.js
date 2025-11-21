@@ -285,8 +285,7 @@ class TaskService {
       console.error("Error marking task completed:", error);
       return null;
     }
-  }
+}
 }
 
-export default new TaskService();
 export default new TaskService();
