@@ -173,7 +173,8 @@ const Income = () => {
     return acc;
   }, {});
 
-  const categories = ["sales", "crops", "livestock", "services", "grants", "rental", "other"];
+const categories = ["sales", "crops", "livestock", "services", "grants", "rental", "other"];
+  const paymentMethods = ["Credit Card", "Debit Card", "Cash", "Check", "Bank Transfer", "Other"];
 
   return (
     <div className="space-y-6">
@@ -394,12 +395,15 @@ const Income = () => {
                   ))}
                 </Select>
 
-                <Input
+<Select
                   name="paymentMethod"
                   label="Payment Method"
-                  type="text"
                   defaultValue={editingIncome?.payment_method_c || editingIncome?.paymentMethod || ""}
-                  placeholder="e.g., cash, check, bank transfer"
+                  options={paymentMethods.map(method => ({
+                    value: method,
+                    label: method
+                  }))}
+                  placeholder="Select payment method"
                 />
 
                 <div className="flex space-x-3 pt-4">
