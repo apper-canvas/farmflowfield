@@ -21,7 +21,7 @@ const BottomNavigation = () => {
       icon: "CheckSquare",
       label: "Tasks"
     },
-    {
+{
       to: "/inventory",
       icon: "Package",
       label: "Inventory"
@@ -30,6 +30,11 @@ const BottomNavigation = () => {
       to: "/expenses",
       icon: "DollarSign",
       label: "Expenses"
+    },
+    {
+      to: "/income",
+      icon: "TrendingUp",
+      label: "Income"
     }
   ];
 

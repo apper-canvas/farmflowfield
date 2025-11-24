@@ -89,6 +89,19 @@
       },
       "redirectOnDeny": "/login"
     }
+},
+  "/income": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "User must be logged in to view income",
+            "rule": "authenticated"
+          }
+        ]
+      },
+      "redirectOnDeny": "/login"
+    }
   },
   "/weather": {
     "allow": {
