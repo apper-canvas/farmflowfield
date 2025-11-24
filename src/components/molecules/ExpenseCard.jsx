@@ -41,22 +41,22 @@ const ExpenseCard = ({ expense, onEdit }) => {
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-            <ApperIcon 
-              name={getCategoryIcon(expense.category)} 
+<ApperIcon 
+              name={getCategoryIcon(expense.category_c || expense.category)} 
               className="w-5 h-5 text-primary" 
             />
           </div>
           <div>
-            <div className="flex items-center space-x-2">
-<span className="text-xl font-bold text-gray-900">
-                ${(expense?.amount && typeof expense.amount === 'number' ? expense.amount : 0).toFixed(2)}
+<div className="flex items-center space-x-2">
+              <span className="text-xl font-bold text-gray-900">
+                ${(expense.amount_c || expense.amount || 0).toFixed(2)}
               </span>
-              <Badge variant={getCategoryColor(expense.category)}>
-                {expense.category}
+              <Badge variant={getCategoryColor(expense.category_c || expense.category)}>
+                {expense.category_c || expense.category}
               </Badge>
             </div>
-            <p className="text-sm text-gray-500">
-              {format(new Date(expense.date), "MMM d, yyyy")}
+<p className="text-sm text-gray-500">
+              {format(new Date(expense.date_c || expense.date), "MMM d, yyyy")}
             </p>
           </div>
         </div>
@@ -69,9 +69,9 @@ const ExpenseCard = ({ expense, onEdit }) => {
         </button>
       </div>
 
-      {expense.description && (
+{(expense.description_c || expense.description) && (
         <p className="text-gray-600 text-sm mb-3">
-          {expense.description}
+          {expense.description_c || expense.description}
         </p>
       )}
 
@@ -83,9 +83,9 @@ const ExpenseCard = ({ expense, onEdit }) => {
           </div>
         )}
         
-        <div className="flex items-center space-x-1">
+<div className="flex items-center space-x-1">
           <ApperIcon name="CreditCard" className="w-4 h-4" />
-          <span className="capitalize">{expense.paymentMethod}</span>
+          <span className="capitalize">{(expense.payment_method_c || expense.paymentMethod || "").replace(/_/g, ' ')}</span>
         </div>
       </div>
     </Card>

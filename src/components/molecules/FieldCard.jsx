@@ -23,10 +23,10 @@ const FieldCard = ({ field }) => {
           </div>
           <div>
             <h3 className="font-semibold text-gray-900">
-              {field.name}
+{field.Name}
             </h3>
             <p className="text-sm text-gray-500">
-              {field.area} {field.unit}
+              {field.area_c} {field.unit_c}
             </p>
           </div>
         </div>
@@ -39,15 +39,15 @@ const FieldCard = ({ field }) => {
       </div>
 
       <div className="grid grid-cols-2 gap-4 text-sm">
-        <div className="flex items-center space-x-2">
+<div className="flex items-center space-x-2">
           <ApperIcon name="Layers" className="w-4 h-4 text-gray-400" />
-          <span className="text-gray-600">{field.soilType}</span>
+          <span className="text-gray-600">{field.soil_type_c}</span>
         </div>
         
-        <div className="flex items-center space-x-2">
+<div className="flex items-center space-x-2">
           <ApperIcon name="MapPin" className="w-4 h-4 text-gray-400" />
           <span className="text-gray-600">
-            {field.coordinates?.length || 0} points
+            {field.coordinates_c?.length || 0} points
           </span>
         </div>
       </div>

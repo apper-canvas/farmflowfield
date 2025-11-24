@@ -24,7 +24,7 @@ const TaskCard = ({ task }) => {
     return icons[category?.toLowerCase()] || "CheckSquare";
   };
 
-  const isOverdue = new Date(task.dueDate) < new Date() && task.status !== "completed";
+const isOverdue = new Date(task.due_date_c || task.dueDate) < new Date() && (task.status_c || task.status) !== "completed";
 
   return (
     <Card 
@@ -40,40 +40,40 @@ const TaskCard = ({ task }) => {
             />
           </div>
           <div>
-            <h3 className="font-semibold text-gray-900 line-clamp-1">
-              {task.title}
+<h3 className="font-semibold text-gray-900 line-clamp-1">
+              {task.title_c || task.title}
             </h3>
             <p className="text-sm text-gray-500 capitalize">
-              {task.category}
+              {task.category_c || task.category}
             </p>
           </div>
         </div>
         
-        <StatusBadge 
-          status={isOverdue ? "overdue" : task.status} 
+<StatusBadge 
+          status={isOverdue ? "overdue" : (task.status_c || task.status)} 
           type="task"
         />
       </div>
 
-      {task.description && (
+{(task.description_c || task.description) && (
         <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-          {task.description}
+          {task.description_c || task.description}
         </p>
       )}
 
 <div className="flex items-center justify-between text-sm text-gray-500">
         <div className="flex items-center space-x-1">
           <ApperIcon name="Calendar" className="w-4 h-4" />
-          <span>
-            Due: {task.dueDate && !isNaN(new Date(task.dueDate).getTime()) 
-              ? format(new Date(task.dueDate), "MMM d, yyyy")
+<span>
+            Due: {(task.due_date_c || task.dueDate) && !isNaN(new Date(task.due_date_c || task.dueDate).getTime()) 
+              ? format(new Date(task.due_date_c || task.dueDate), "MMM d, yyyy")
               : "No due date"
             }
           </span>
         </div>
         
-        {task.priority && (
-          <StatusBadge status={task.priority} type="priority" />
+{(task.priority_c || task.priority) && (
+          <StatusBadge status={task.priority_c || task.priority} type="priority" />
         )}
       </div>
 
