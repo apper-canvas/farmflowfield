@@ -196,7 +196,7 @@ class WeatherService {
     };
   }
 
-  getMockForecast(days) {
+getMockForecast(days) {
     const forecast = [];
     const conditions = ["sunny", "cloudy", "partly_cloudy", "rainy"];
     
@@ -204,14 +204,23 @@ class WeatherService {
       const date = new Date();
       date.setDate(date.getDate() + i);
       
+      // Ensure valid date and proper formatting
+      const validDate = new Date(date);
+      if (isNaN(validDate.getTime())) {
+        console.warn(`Invalid date generated for day ${i}`);
+        validDate.setTime(Date.now() + (i * 24 * 60 * 60 * 1000));
+      }
+      
       forecast.push({
-        date: date.toISOString(),
-        tempMax: 20 + Math.random() * 10,
-        tempMin: 15 + Math.random() * 5,
+        date: validDate.toISOString(),
+        tempMax: Math.round((20 + Math.random() * 10) * 10) / 10,
+        tempMin: Math.round((15 + Math.random() * 5) * 10) / 10,
         condition: conditions[Math.floor(Math.random() * conditions.length)],
-        precipitation: Math.random() * 5,
-        humidity: 50 + Math.random() * 30,
-        windSpeed: 8 + Math.random() * 8
+        precipitation: Math.round((Math.random() * 5) * 10) / 10,
+        humidity: Math.round(50 + Math.random() * 30),
+        windSpeed: Math.round((8 + Math.random() * 8) * 10) / 10,
+        startDate: validDate.toISOString(),
+        endDate: new Date(validDate.getTime() + (24 * 60 * 60 * 1000)).toISOString()
       });
     }
     

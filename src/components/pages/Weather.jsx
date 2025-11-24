@@ -105,8 +105,21 @@ const Weather = () => {
                   </div>
                   <p className="text-sm text-gray-700 mb-2">{alert.message}</p>
                   <p className="text-xs text-gray-500">
-                    {format(new Date(alert.startDate), "MMM d, h:mm a")} - 
-                    {format(new Date(alert.endDate), "MMM d, h:mm a")}
+{(() => {
+                      const formatAlertDate = (dateStr) => {
+                        if (!dateStr) return "Unknown";
+                        const date = new Date(dateStr);
+                        if (isNaN(date.getTime())) return "Unknown";
+                        try {
+                          return format(date, "MMM d, h:mm a");
+                        } catch (error) {
+                          console.warn("Alert date formatting error:", error);
+                          return "Unknown";
+                        }
+                      };
+                      
+                      return `${formatAlertDate(alert.startDate)} - ${formatAlertDate(alert.endDate)}`;
+                    })()}
                   </p>
                 </div>
               </div>
@@ -167,41 +180,73 @@ const Weather = () => {
         
         {/* Forecast Tabs */}
         <div className="flex overflow-x-auto space-x-2 mb-4 pb-2">
-          {forecast.map((day, index) => (
-            <button
-              key={index}
-              onClick={() => setSelectedDay(index)}
-              className={`flex-shrink-0 p-3 rounded-lg text-center min-w-[100px] transition-all duration-200 ${
-                selectedDay === index
-                  ? "bg-primary text-white shadow-md"
-                  : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200"
-              }`}
-            >
-              <div className="text-sm font-medium mb-1">
-                {index === 0 ? "Today" : format(new Date(day.date), "EEE")}
-              </div>
-              <ApperIcon 
-                name={getWeatherIcon(day.condition)} 
-                className={`w-6 h-6 mx-auto mb-1 ${
-                  selectedDay === index ? "text-white" : getConditionColor(day.condition)
+{forecast.map((day, index) => {
+            // Validate date before formatting
+            const isValidDate = (date) => {
+              const d = new Date(date);
+              return d instanceof Date && !isNaN(d.getTime());
+            };
+            
+            const formatDayLabel = () => {
+              if (index === 0) return "Today";
+              if (!day.date || !isValidDate(day.date)) return `Day ${index + 1}`;
+              try {
+                return format(new Date(day.date), "EEE");
+              } catch (error) {
+                console.warn("Date formatting error:", error);
+                return `Day ${index + 1}`;
+              }
+            };
+            
+            return (
+              <button
+                key={index}
+                onClick={() => setSelectedDay(index)}
+                className={`flex-shrink-0 p-3 rounded-lg text-center min-w-[100px] transition-all duration-200 ${
+                  selectedDay === index
+                    ? "bg-primary text-white shadow-md"
+                    : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200"
                 }`}
-              />
-              <div className="text-xs">
-                {day.tempMax}°/{day.tempMin}°
-              </div>
-            </button>
-          ))}
+              >
+                <div className="text-sm font-medium mb-1">
+                  {formatDayLabel()}
+                </div>
+                <ApperIcon 
+                  name={getWeatherIcon(day.condition)} 
+                  className={`w-6 h-6 mx-auto mb-1 ${
+                    selectedDay === index ? "text-white" : getConditionColor(day.condition)
+                  }`}
+                />
+                <div className="text-xs">
+                  {day.tempMax}°/{day.tempMin}°
+                </div>
+              </button>
+            );
+          })}
         </div>
 
         {/* Selected Day Details */}
-        {selectedForecast && (
+{selectedForecast && (
           <Card className="p-6">
             <div className="flex items-center justify-between mb-4">
               <h4 className="text-lg font-semibold text-gray-900">
-                {selectedDay === 0 ? "Today" : format(new Date(selectedForecast.date), "EEEE, MMMM d")}
+                {(() => {
+                  if (selectedDay === 0) return "Today";
+                  if (!selectedForecast.date) return "Weather Forecast";
+                  
+                  const date = new Date(selectedForecast.date);
+                  if (isNaN(date.getTime())) return "Weather Forecast";
+                  
+                  try {
+                    return format(date, "EEEE, MMMM d");
+                  } catch (error) {
+                    console.warn("Date formatting error:", error);
+                    return "Weather Forecast";
+                  }
+                })()}
               </h4>
               <Badge variant="primary" className="capitalize">
-                {selectedForecast.condition?.replace("_", " ")}
+                {selectedForecast.condition?.replace("_", " ") || "Unknown"}
               </Badge>
             </div>
 
@@ -209,11 +254,11 @@ const Weather = () => {
               <div className="text-center">
                 <ApperIcon name="Thermometer" className="w-8 h-8 text-red-500 mx-auto mb-2" />
                 <div className="text-2xl font-bold text-gray-900 mb-1">
-                  {selectedForecast.tempMax}°C
+                  {selectedForecast.tempMax || 0}°C
                 </div>
                 <div className="text-sm text-gray-600">High</div>
                 <div className="text-lg text-gray-700 mt-1">
-                  {selectedForecast.tempMin}°C
+                  {selectedForecast.tempMin || 0}°C
                 </div>
                 <div className="text-xs text-gray-500">Low</div>
               </div>
@@ -221,7 +266,7 @@ const Weather = () => {
               <div className="text-center">
                 <ApperIcon name="CloudRain" className="w-8 h-8 text-blue-500 mx-auto mb-2" />
                 <div className="text-2xl font-bold text-gray-900 mb-1">
-                  {selectedForecast.precipitation} mm
+                  {selectedForecast.precipitation || 0} mm
                 </div>
                 <div className="text-sm text-gray-600">Rain</div>
               </div>
@@ -229,7 +274,7 @@ const Weather = () => {
               <div className="text-center">
                 <ApperIcon name="Droplets" className="w-8 h-8 text-blue-400 mx-auto mb-2" />
                 <div className="text-2xl font-bold text-gray-900 mb-1">
-                  {selectedForecast.humidity}%
+                  {selectedForecast.humidity || 0}%
                 </div>
                 <div className="text-sm text-gray-600">Humidity</div>
               </div>
@@ -237,7 +282,7 @@ const Weather = () => {
               <div className="text-center">
                 <ApperIcon name="Wind" className="w-8 h-8 text-gray-500 mx-auto mb-2" />
                 <div className="text-2xl font-bold text-gray-900 mb-1">
-                  {selectedForecast.windSpeed} km/h
+                  {selectedForecast.windSpeed || 0} km/h
                 </div>
                 <div className="text-sm text-gray-600">Wind</div>
               </div>
