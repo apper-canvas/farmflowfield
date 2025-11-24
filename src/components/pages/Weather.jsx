@@ -181,21 +181,29 @@ const Weather = () => {
         {/* Forecast Tabs */}
         <div className="flex overflow-x-auto space-x-2 mb-4 pb-2">
 {forecast.map((day, index) => {
-            // Validate date before formatting
+            // Enhanced date validation function
             const isValidDate = (date) => {
+              if (!date || date === null || date === undefined || date === '') return false;
               const d = new Date(date);
-              return d instanceof Date && !isNaN(d.getTime());
+              return d instanceof Date && !isNaN(d.getTime()) && d.getFullYear() > 1900;
+            };
+            
+            // Safe format wrapper that validates date before formatting
+            const safeFormat = (date, formatString, fallback) => {
+              if (!isValidDate(date)) return fallback;
+              try {
+                const dateObj = new Date(date);
+                if (!isValidDate(dateObj)) return fallback;
+                return format(dateObj, formatString);
+              } catch (error) {
+                console.warn("Date formatting error:", error, "Date value:", date);
+                return fallback;
+              }
             };
             
             const formatDayLabel = () => {
               if (index === 0) return "Today";
-              if (!day.date || !isValidDate(day.date)) return `Day ${index + 1}`;
-              try {
-                return format(new Date(day.date), "EEE");
-              } catch (error) {
-                console.warn("Date formatting error:", error);
-                return `Day ${index + 1}`;
-              }
+              return safeFormat(day.date, "EEE", `Day ${index + 1}`);
             };
             
             return (
@@ -230,19 +238,30 @@ const Weather = () => {
           <Card className="p-6">
             <div className="flex items-center justify-between mb-4">
               <h4 className="text-lg font-semibold text-gray-900">
-                {(() => {
+{(() => {
                   if (selectedDay === 0) return "Today";
-                  if (!selectedForecast.date) return "Weather Forecast";
                   
-                  const date = new Date(selectedForecast.date);
-                  if (isNaN(date.getTime())) return "Weather Forecast";
+                  // Enhanced date validation for selected forecast
+                  const isValidForecastDate = (date) => {
+                    if (!date || date === null || date === undefined || date === '') return false;
+                    const d = new Date(date);
+                    return d instanceof Date && !isNaN(d.getTime()) && d.getFullYear() > 1900;
+                  };
                   
-                  try {
-                    return format(date, "EEEE, MMMM d");
-                  } catch (error) {
-                    console.warn("Date formatting error:", error);
-                    return "Weather Forecast";
-                  }
+                  // Safe format for forecast header
+                  const safeForecastFormat = (date, formatString, fallback) => {
+                    if (!isValidForecastDate(date)) return fallback;
+                    try {
+                      const dateObj = new Date(date);
+                      if (!isValidForecastDate(dateObj)) return fallback;
+                      return format(dateObj, formatString);
+                    } catch (error) {
+                      console.warn("Forecast date formatting error:", error, "Date value:", date);
+                      return fallback;
+                    }
+                  };
+                  
+                  return safeForecastFormat(selectedForecast.date, "EEEE, MMMM d", "Weather Forecast");
                 })()}
               </h4>
               <Badge variant="primary" className="capitalize">
