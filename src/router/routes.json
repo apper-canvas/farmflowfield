@@ -64,6 +64,19 @@
       },
       "redirectOnDeny": "/login"
     }
+},
+  "/tasks/edit/:taskId": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Task edit requires authentication",
+            "rule": "authenticated"
+          }
+        ]
+      },
+      "redirectOnDeny": "/login"
+    }
   },
   "/inventory": {
     "allow": {
@@ -275,6 +288,19 @@
         "conditions": [
           {
             "label": "Task details require authentication",
+            "rule": "authenticated"
+          }
+        ]
+      },
+      "redirectOnDeny": "/login"
+    }
+},
+  "/tasks/edit/:taskId": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Task edit requires authentication",
             "rule": "authenticated"
           }
         ]
