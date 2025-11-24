@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 import fieldService from "@/services/api/fieldService";
 import taskService from "@/services/api/taskService";
 import ApperIcon from "@/components/ApperIcon";
