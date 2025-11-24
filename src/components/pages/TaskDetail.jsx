@@ -73,7 +73,26 @@ if (taskData.crop_id_c?.Id || taskData.crop_id_c) {
   if (error) return <ErrorView message={error} onRetry={loadTaskDetails} />;
   if (!task) return <ErrorView title="Task not found" message="The requested task could not be found." />;
 
-  const isOverdue = new Date(task.dueDate) < new Date() && task.status !== "completed";
+// Helper function to check if a date is valid
+  const isValidDate = (date) => {
+    if (!date) return false;
+    const d = new Date(date);
+    return d instanceof Date && !isNaN(d.getTime());
+  };
+
+  // Safe date formatting with fallback
+  const formatSafeDate = (date, formatString, fallback = "Invalid date") => {
+    if (!isValidDate(date)) return fallback;
+    try {
+      return format(new Date(date), formatString);
+    } catch (error) {
+      console.warn('Date formatting error:', error);
+      return fallback;
+    }
+  };
+
+  const dueDate = task.due_date_c || task.dueDate;
+  const isOverdue = isValidDate(dueDate) && new Date(dueDate) < new Date() && (task.status_c || task.status) !== "completed";
   const canComplete = task.status === "pending";
 
   const getCategoryIcon = (category) => {
@@ -128,7 +147,7 @@ if (taskData.crop_id_c?.Id || taskData.crop_id_c) {
               <div className="flex items-center space-x-4 text-sm text-gray-600">
                 <div className="flex items-center space-x-1">
                   <ApperIcon name="Calendar" className="w-4 h-4" />
-<span>Due: {format(new Date(task.due_date_c || task.dueDate), "MMMM d, yyyy 'at' h:mm a")}</span>
+<span>Due: {formatSafeDate(task.due_date_c || task.dueDate, "MMMM d, yyyy 'at' h:mm a", "Not set")}</span>
                 </div>
 {(task.assigned_to_c || task.assignedTo) && (
                   <div className="flex items-center space-x-1">
@@ -241,15 +260,15 @@ if (taskData.crop_id_c?.Id || taskData.crop_id_c) {
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-500">Due Date</span>
               <span className="text-sm text-gray-900">
-{format(new Date(task.due_date_c || task.dueDate), "MMM d, yyyy")}
+{formatSafeDate(task.due_date_c || task.dueDate, "MMM d, yyyy", "Not set")}
               </span>
             </div>
 
-{(task.completed_date_c || task.completedDate) && (
+{isValidDate(task.completed_date_c || task.completedDate) && (
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-gray-500">Completed</span>
                 <span className="text-sm text-gray-900">
-                  {format(new Date(task.completed_date_c || task.completedDate), "MMM d, yyyy 'at' h:mm a")}
+                  {formatSafeDate(task.completed_date_c || task.completedDate, "MMM d, yyyy 'at' h:mm a", "Invalid date")}
                 </span>
               </div>
             )}
@@ -258,7 +277,7 @@ if (taskData.crop_id_c?.Id || taskData.crop_id_c) {
       </div>
 
       {/* Completion Status */}
-      {task.status === "completed" && (
+{(task.status_c || task.status) === "completed" && (
         <Card className="p-6 bg-success/5 border-success/20">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-success rounded-lg flex items-center justify-center">
@@ -267,7 +286,7 @@ if (taskData.crop_id_c?.Id || taskData.crop_id_c) {
             <div>
               <h3 className="font-semibold text-success">Task Completed</h3>
               <p className="text-sm text-gray-600">
-Completed on {format(new Date(task.completed_date_c || task.completedDate), "MMMM d, yyyy 'at' h:mm a")}
+                Completed on {formatSafeDate(task.completed_date_c || task.completedDate, "MMMM d, yyyy 'at' h:mm a", "Unknown date")}
               </p>
             </div>
           </div>
