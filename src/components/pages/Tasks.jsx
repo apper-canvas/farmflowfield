@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 import fieldService from "@/services/api/fieldService";
 import taskService from "@/services/api/taskService";
 import ApperIcon from "@/components/ApperIcon";
@@ -10,6 +11,7 @@ import Select from "@/components/atoms/Select";
 import Button from "@/components/atoms/Button";
 import SearchBar from "@/components/molecules/SearchBar";
 import TaskCard from "@/components/molecules/TaskCard";
+import TaskCreateForm from "@/components/forms/TaskCreateForm";
 
 const Tasks = () => {
   const navigate = useNavigate();
@@ -97,10 +99,28 @@ if (statusFilter !== "all") {
     setFilteredTasks(filtered);
   };
 
+const [showCreateModal, setShowCreateModal] = useState(false);
+
   const handleCreateTask = () => {
-    navigate("/tasks");
+    setShowCreateModal(true);
   };
 
+const handleTaskCreated = (newTask) => {
+    setTasks(prev => [newTask, ...prev]);
+    setShowCreateModal(false);
+    toast.success('Task created successfully');
+  };
+
+  const handleCloseModal = () => {
+    setShowCreateModal(false);
+  };
+
+  const handleTaskUpdate = (updatedTask) => {
+    setTasks(prev => prev.map(task => 
+      task.Id === updatedTask.Id ? updatedTask : task
+    ));
+    toast.success('Task updated successfully');
+  };
   if (loading) return <Loading type="cards" />;
   if (error) return <ErrorView message={error} onRetry={loadTasks} />;
 
@@ -207,6 +227,7 @@ const pendingTasks = filteredTasks.filter(task => (task.status_c || task.status)
       </div>
 
       {/* Tasks List */}
+{/* Tasks List */}
       {filteredTasks.length === 0 ? (
         <Empty
           icon="CheckSquare"
@@ -217,20 +238,32 @@ const pendingTasks = filteredTasks.filter(task => (task.status_c || task.status)
           }
           actionLabel="Create First Task"
           onAction={handleCreateTask}
-          showAction={!searchQuery && statusFilter === "all" && priorityFilter === "all" && categoryFilter === "all"}
         />
       ) : (
         <div className="space-y-3">
           {filteredTasks.map((task) => (
-            <TaskCard key={task.Id} task={task} />
+            <TaskCard 
+              key={task.Id} 
+              task={task} 
+              onTaskUpdate={handleTaskUpdate}
+            />
           ))}
         </div>
+      )}
+
+      {/* Create Task Modal */}
+      {showCreateModal && (
+        <TaskCreateForm
+          onTaskCreated={handleTaskCreated}
+          onClose={handleCloseModal}
+        />
       )}
 
       {/* Floating Action Button for Mobile */}
       <button
         onClick={handleCreateTask}
         className="fixed bottom-20 right-4 w-14 h-14 bg-primary text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center lg:hidden active:scale-95"
+        aria-label="Create Task"
       >
         <ApperIcon name="Plus" className="w-6 h-6" />
       </button>
