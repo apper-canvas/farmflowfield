@@ -215,19 +215,29 @@ const handleSubmit = async (e) => {
         </div>
 
         {/* Soil Type */}
-        <div>
+<div>
           <label htmlFor="soil_type_c" className="block text-sm font-medium text-gray-700 mb-2">
             Soil Type
           </label>
-          <Input
+          <Select
             id="soil_type_c"
             name="soil_type_c"
-            type="text"
             value={formData.soil_type_c}
             onChange={handleInputChange}
-            placeholder="Enter soil type"
             disabled={isSubmitDisabled}
-          />
+          >
+            <option value="">Select soil type</option>
+            <option value="Clay">Clay</option>
+            <option value="Sandy">Sandy</option>
+            <option value="Loamy">Loamy</option>
+            <option value="Silty">Silty</option>
+            <option value="Peaty">Peaty</option>
+            <option value="Chalky">Chalky</option>
+            <option value="Rocky">Rocky</option>
+            <option value="Alluvial">Alluvial</option>
+            <option value="Black Cotton">Black Cotton</option>
+            <option value="Red Laterite">Red Laterite</option>
+          </Select>
         </div>
 
         {/* Coordinates */}
