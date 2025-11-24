@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { format } from "date-fns";
-import toast from "react-hot-toast";
+import { toast } from 'react-toastify';
 import cropService from "@/services/api/cropService";
 import fieldService from "@/services/api/fieldService";
 import taskService from "@/services/api/taskService";
