@@ -11,6 +11,7 @@ const FieldDetail = lazy(() => import("@/components/pages/FieldDetail"));
 const Tasks = lazy(() => import("@/components/pages/Tasks"));
 const TaskDetail = lazy(() => import("@/components/pages/TaskDetail"));
 const Inventory = lazy(() => import("@/components/pages/Inventory"));
+const TaskEdit = lazy(() => import("@/components/pages/TaskEdit"));
 const Income = lazy(() => import("@/components/pages/Income"));
 const Expenses = lazy(() => import("@/components/pages/Expenses"));
 const Weather = lazy(() => import("@/components/pages/Weather"));
@@ -126,8 +127,12 @@ export const router = createBrowserRouter([
             element: <Tasks />
           }),
           createRoute({
-            path: "tasks/:taskId",
+path: "tasks/:taskId",
             element: <TaskDetail />
+          }),
+createRoute({
+            path: "tasks/edit/:taskId",
+            element: <TaskEdit />
           }),
           createRoute({
             path: "inventory",
