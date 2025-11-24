@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { format } from 'date-fns';
 import { toast } from 'react-toastify';
 import Button from '@/components/atoms/Button';
 import Input from '@/components/atoms/Input';
@@ -8,27 +9,35 @@ import ApperIcon from '@/components/ApperIcon';
 import fieldService from '@/services/api/fieldService';
 
 const FieldForm = ({ field = null, onSubmit, onCancel, isLoading: externalLoading = false }) => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
     Name: '',
     area_c: '',
     unit_c: '',
     soil_type_c: '',
     coordinates_c: '',
-    current_stage_c: ''
+    current_stage_c: '',
+    CreatedOn: '',
+    CreatedBy: null,
+    ModifiedOn: '',
+    ModifiedBy: null
   });
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
 
   // Populate form if editing existing field
   useEffect(() => {
-    if (field) {
+if (field) {
       setFormData({
         Name: field.Name || '',
         area_c: field.area_c || '',
         unit_c: field.unit_c || '',
         soil_type_c: field.soil_type_c || '',
         coordinates_c: field.coordinates_c || '',
-        current_stage_c: field.current_stage_c || ''
+        current_stage_c: field.current_stage_c || '',
+        CreatedOn: field.CreatedOn || '',
+        CreatedBy: field.CreatedBy || null,
+        ModifiedOn: field.ModifiedOn || '',
+        ModifiedBy: field.ModifiedBy || null
       });
     }
   }, [field]);
@@ -278,7 +287,46 @@ const handleSubmit = async (e) => {
             disabled={isSubmitDisabled}
           />
         </div>
+{/* System Fields - Only show when editing existing field */}
+        {field && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6 border-t border-gray-200">
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Created On
+              </label>
+              <div className="px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-600">
+                {formData.CreatedOn ? format(new Date(formData.CreatedOn), 'MMM dd, yyyy h:mm a') : 'Not available'}
+              </div>
+            </div>
 
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Created By
+              </label>
+              <div className="px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-600">
+                {formData.CreatedBy?.Name || 'Not available'}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Modified On
+              </label>
+              <div className="px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-600">
+                {formData.ModifiedOn ? format(new Date(formData.ModifiedOn), 'MMM dd, yyyy h:mm a') : 'Not available'}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">
+                Modified By
+              </label>
+              <div className="px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-600">
+                {formData.ModifiedBy?.Name || 'Not available'}
+              </div>
+            </div>
+          </div>
+        )}
         {/* Form Actions */}
         <div className="flex flex-col sm:flex-row gap-3 pt-4">
           <Button
