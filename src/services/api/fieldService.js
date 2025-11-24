@@ -81,7 +81,7 @@ class FieldService {
       // Only include updateable fields
       const sanitizedData = {
         Name: fieldData.Name || fieldData.name,
-        area_c: fieldData.area_c || fieldData.area,
+area_c: fieldData.area_c && fieldData.area_c !== '' ? parseFloat(fieldData.area_c) : (fieldData.area && fieldData.area !== '' ? parseFloat(fieldData.area) : undefined),
         unit_c: fieldData.unit_c || fieldData.unit,
         soil_type_c: fieldData.soil_type_c || fieldData.soilType,
         coordinates_c: fieldData.coordinates_c || fieldData.coordinates,
@@ -135,7 +135,7 @@ class FieldService {
       const sanitizedData = {
         Id: parseInt(id),
         Name: fieldData.Name || fieldData.name,
-        area_c: fieldData.area_c || fieldData.area,
+area_c: fieldData.area_c && fieldData.area_c !== '' ? parseFloat(fieldData.area_c) : (fieldData.area && fieldData.area !== '' ? parseFloat(fieldData.area) : undefined),
         unit_c: fieldData.unit_c || fieldData.unit,
         soil_type_c: fieldData.soil_type_c || fieldData.soilType,
         coordinates_c: fieldData.coordinates_c || fieldData.coordinates,

@@ -68,7 +68,7 @@ const FieldForm = ({ field = null, onSubmit, onCancel, isLoading: externalLoadin
     }
   };
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (!validateForm()) {
@@ -77,10 +77,33 @@ const FieldForm = ({ field = null, onSubmit, onCancel, isLoading: externalLoadin
 
     setLoading(true);
     try {
+      // Prepare data with proper type conversion
+      const preparedData = { ...formData };
+      
+      // Convert numeric fields to proper types and filter out empty values
+      if (preparedData.area_c && preparedData.area_c.trim() !== '') {
+        preparedData.area_c = parseFloat(preparedData.area_c);
+      } else {
+        delete preparedData.area_c; // Remove empty values
+      }
+      
+      if (preparedData.coordinates_c && preparedData.coordinates_c.trim() !== '') {
+        preparedData.coordinates_c = parseFloat(preparedData.coordinates_c);
+      } else {
+        delete preparedData.coordinates_c; // Remove empty values
+      }
+
+      // Remove other empty string values
+      Object.keys(preparedData).forEach(key => {
+        if (preparedData[key] === '' || preparedData[key] === null || preparedData[key] === undefined) {
+          delete preparedData[key];
+        }
+      });
+
       let result;
       if (field) {
         // Update existing field
-        result = await fieldService.update(field.Id, formData);
+        result = await fieldService.update(field.Id, preparedData);
         if (result) {
           toast.success('Field updated successfully!');
         } else {
@@ -90,7 +113,7 @@ const FieldForm = ({ field = null, onSubmit, onCancel, isLoading: externalLoadin
         }
       } else {
         // Create new field
-        result = await fieldService.create(formData);
+        result = await fieldService.create(preparedData);
         if (result) {
           toast.success('Field created successfully!');
         } else {
