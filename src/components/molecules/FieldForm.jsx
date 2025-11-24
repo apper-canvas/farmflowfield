@@ -53,8 +53,11 @@ if (field) {
       newErrors.area_c = 'Area must be a valid number';
     }
 
-    if (formData.coordinates_c && (isNaN(parseFloat(formData.coordinates_c)) || parseFloat(formData.coordinates_c) > 5)) {
-      newErrors.coordinates_c = 'Coordinates must be a number between 0 and 5';
+if (formData.coordinates_c && formData.coordinates_c.trim() !== '') {
+      const numValue = parseFloat(formData.coordinates_c);
+      if (isNaN(numValue) || numValue < 0 || numValue > 5) {
+        newErrors.coordinates_c = 'Coordinates must be a number between 0 and 5';
+      }
     }
 
     setErrors(newErrors);
@@ -96,8 +99,9 @@ const handleSubmit = async (e) => {
         delete preparedData.area_c; // Remove empty values
       }
       
-      if (preparedData.coordinates_c && preparedData.coordinates_c.trim() !== '') {
-        preparedData.coordinates_c = parseFloat(preparedData.coordinates_c);
+if (preparedData.coordinates_c && preparedData.coordinates_c.trim() !== '') {
+        // Keep coordinates as string - API expects string value
+        preparedData.coordinates_c = preparedData.coordinates_c.trim();
       } else {
         delete preparedData.coordinates_c; // Remove empty values
       }
