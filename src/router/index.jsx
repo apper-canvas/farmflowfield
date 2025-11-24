@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import React, { Suspense, lazy } from "react";
 import { getRouteConfig } from "@/router/route.utils";
-import Root from "@/layouts/Root";
 import Layout from "@/components/organisms/Layout";
+import Root from "@/layouts/Root";
 
 // Lazy load pages
 const Dashboard = lazy(() => import("@/components/pages/Dashboard"));
@@ -11,12 +11,12 @@ const FieldDetail = lazy(() => import("@/components/pages/FieldDetail"));
 const Tasks = lazy(() => import("@/components/pages/Tasks"));
 const TaskDetail = lazy(() => import("@/components/pages/TaskDetail"));
 const Inventory = lazy(() => import("@/components/pages/Inventory"));
+const Income = lazy(() => import("@/components/pages/Income"));
 const Expenses = lazy(() => import("@/components/pages/Expenses"));
 const Weather = lazy(() => import("@/components/pages/Weather"));
 const Settings = lazy(() => import("@/components/pages/Settings"));
 const Reports = lazy(() => import("@/components/pages/Reports"));
 const NotFound = lazy(() => import("@/components/pages/NotFound"));
-
 // Auth pages
 const Login = lazy(() => import("@/components/pages/Login"));
 const Signup = lazy(() => import("@/components/pages/Signup"));
@@ -104,7 +104,7 @@ export const router = createBrowserRouter([
         element: <PromptPassword />
       }),
       
-      // Main app routes (protected)
+// Main app routes (protected)
       {
         path: "/",
         element: <Layout />,
@@ -132,6 +132,10 @@ export const router = createBrowserRouter([
           createRoute({
             path: "inventory",
             element: <Inventory />
+          }),
+          createRoute({
+            path: "income",
+            element: <Income />
           }),
           createRoute({
             path: "expenses",

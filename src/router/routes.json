@@ -1,10 +1,11 @@
+[
 {
   "/": {
     "allow": {
       "when": {
         "conditions": [
           {
-            "label": "User must be logged in to access dashboard",
+            "label": "Dashboard requires authentication",
             "rule": "authenticated"
           }
         ]
@@ -17,7 +18,7 @@
       "when": {
         "conditions": [
           {
-            "label": "User must be logged in to view fields",
+            "label": "Fields page requires authentication",
             "rule": "authenticated"
           }
         ]
@@ -25,12 +26,12 @@
       "redirectOnDeny": "/login"
     }
   },
-  "/fields/*": {
+  "/fields/:fieldId": {
     "allow": {
       "when": {
         "conditions": [
           {
-            "label": "User must be logged in to view field details",
+            "label": "Field details require authentication",
             "rule": "authenticated"
           }
         ]
@@ -43,7 +44,7 @@
       "when": {
         "conditions": [
           {
-            "label": "User must be logged in to view tasks",
+            "label": "Tasks page requires authentication",
             "rule": "authenticated"
           }
         ]
@@ -51,12 +52,12 @@
       "redirectOnDeny": "/login"
     }
   },
-  "/tasks/*": {
+  "/tasks/:taskId": {
     "allow": {
       "when": {
         "conditions": [
           {
-            "label": "User must be logged in to view task details",
+            "label": "Task details require authentication",
             "rule": "authenticated"
           }
         ]
@@ -69,7 +70,20 @@
       "when": {
         "conditions": [
           {
-            "label": "User must be logged in to view inventory",
+            "label": "Inventory page requires authentication",
+            "rule": "authenticated"
+          }
+        ]
+      },
+      "redirectOnDeny": "/login"
+    }
+  },
+  "/income": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Income page requires authentication",
             "rule": "authenticated"
           }
         ]
@@ -82,20 +96,7 @@
       "when": {
         "conditions": [
           {
-            "label": "User must be logged in to view expenses",
-            "rule": "authenticated"
-          }
-        ]
-      },
-      "redirectOnDeny": "/login"
-    }
-},
-  "/income": {
-    "allow": {
-      "when": {
-        "conditions": [
-          {
-            "label": "User must be logged in to view income",
+            "label": "Expenses page requires authentication",
             "rule": "authenticated"
           }
         ]
@@ -108,7 +109,7 @@
       "when": {
         "conditions": [
           {
-            "label": "User must be logged in to view weather",
+            "label": "Weather page requires authentication",
             "rule": "authenticated"
           }
         ]
@@ -121,7 +122,7 @@
       "when": {
         "conditions": [
           {
-            "label": "User must be logged in to view settings",
+            "label": "Settings page requires authentication",
             "rule": "authenticated"
           }
         ]
@@ -134,7 +135,7 @@
       "when": {
         "conditions": [
           {
-            "label": "User must be logged in to view reports",
+            "label": "Reports page requires authentication",
             "rule": "authenticated"
           }
         ]
@@ -171,7 +172,7 @@
       "when": {
         "conditions": [
           {
-            "label": "Callback page is public",
+            "label": "Auth callback is public",
             "rule": "public"
           }
         ]
@@ -195,7 +196,7 @@
       "when": {
         "conditions": [
           {
-            "label": "Reset password is public",
+            "label": "Password reset is public",
             "rule": "public"
           }
         ]
@@ -207,7 +208,224 @@
       "when": {
         "conditions": [
           {
-            "label": "Prompt password is public",
+            "label": "Password prompt is public",
+            "rule": "public"
+          }
+        ]
+      }
+    }
+  }
+},
+{
+  "/": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Dashboard requires authentication",
+            "rule": "authenticated"
+          }
+        ]
+      },
+      "redirectOnDeny": "/login"
+    }
+  },
+  "/fields": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Fields page requires authentication",
+            "rule": "authenticated"
+          }
+        ]
+      },
+      "redirectOnDeny": "/login"
+    }
+  },
+  "/fields/:fieldId": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Field details require authentication",
+            "rule": "authenticated"
+          }
+        ]
+      },
+      "redirectOnDeny": "/login"
+    }
+  },
+  "/tasks": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Tasks page requires authentication",
+            "rule": "authenticated"
+          }
+        ]
+      },
+      "redirectOnDeny": "/login"
+    }
+  },
+  "/tasks/:taskId": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Task details require authentication",
+            "rule": "authenticated"
+          }
+        ]
+      },
+      "redirectOnDeny": "/login"
+    }
+  },
+  "/inventory": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Inventory page requires authentication",
+            "rule": "authenticated"
+          }
+        ]
+      },
+      "redirectOnDeny": "/login"
+    }
+  },
+  "/income": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Income page requires authentication",
+            "rule": "authenticated"
+          }
+        ]
+      },
+      "redirectOnDeny": "/login"
+    }
+  },
+  "/expenses": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Expenses page requires authentication",
+            "rule": "authenticated"
+          }
+        ]
+      },
+      "redirectOnDeny": "/login"
+    }
+  },
+  "/weather": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Weather page requires authentication",
+            "rule": "authenticated"
+          }
+        ]
+      },
+      "redirectOnDeny": "/login"
+    }
+  },
+  "/settings": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Settings page requires authentication",
+            "rule": "authenticated"
+          }
+        ]
+      },
+      "redirectOnDeny": "/login"
+    }
+  },
+  "/reports": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Reports page requires authentication",
+            "rule": "authenticated"
+          }
+        ]
+      },
+      "redirectOnDeny": "/login"
+    }
+  },
+  "/login": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Login page is public",
+            "rule": "public"
+          }
+        ]
+      }
+    }
+  },
+  "/signup": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Signup page is public",
+            "rule": "public"
+          }
+        ]
+      }
+    }
+  },
+  "/callback": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Auth callback is public",
+            "rule": "public"
+          }
+        ]
+      }
+    }
+  },
+  "/error": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Error page is public",
+            "rule": "public"
+          }
+        ]
+      }
+    }
+  },
+  "/reset-password/*": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Password reset is public",
+            "rule": "public"
+          }
+        ]
+      }
+    }
+  },
+  "/prompt-password/*": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Password prompt is public",
             "rule": "public"
           }
         ]
@@ -215,3 +433,4 @@
     }
   }
 }
+]
