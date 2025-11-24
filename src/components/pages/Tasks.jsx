@@ -52,7 +52,8 @@ const Tasks = () => {
 
 const filterTasks = () => {
     let filtered = tasks.map(task => {
-      const field = fields.find(f => f.Id.toString() === (task.field_id_c?.Id || task.field_id_c).toString());
+      const field = fields.find(f => f?.Id != null && (task.field_id_c?.Id || task.field_id_c) != null && 
+        f.Id.toString() === (task.field_id_c?.Id || task.field_id_c).toString());
       return {
         ...task,
         fieldName: field?.Name || field?.name
