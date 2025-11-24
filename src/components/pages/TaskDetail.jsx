@@ -160,7 +160,11 @@ if (taskData.crop_id_c?.Id || taskData.crop_id_c) {
           </div>
 
           <div className="flex space-x-2">
-            <Button variant="outline" size="sm">
+<Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => navigate(`/tasks/edit/${taskId}`)}
+            >
               <ApperIcon name="Edit2" className="w-4 h-4 mr-2" />
               Edit Task
             </Button>
