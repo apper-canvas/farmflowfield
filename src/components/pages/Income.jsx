@@ -399,12 +399,14 @@ const categories = ["sales", "crops", "livestock", "services", "grants", "rental
                   name="paymentMethod"
                   label="Payment Method"
                   defaultValue={editingIncome?.payment_method_c || editingIncome?.paymentMethod || ""}
-                  options={paymentMethods.map(method => ({
-                    value: method,
-                    label: method
-                  }))}
-                  placeholder="Select payment method"
-                />
+                >
+                  <option value="">Select payment method</option>
+                  {paymentMethods.map(method => (
+                    <option key={method} value={method}>
+                      {method}
+                    </option>
+                  ))}
+                </Select>
 
                 <div className="flex space-x-3 pt-4">
                   <Button type="submit" className="flex-1">
