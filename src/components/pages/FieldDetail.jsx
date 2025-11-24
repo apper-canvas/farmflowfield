@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { format } from "date-fns";
+import toast from "react-hot-toast";
+import cropService from "@/services/api/cropService";
+import fieldService from "@/services/api/fieldService";
+import taskService from "@/services/api/taskService";
 import ApperIcon from "@/components/ApperIcon";
+import Loading from "@/components/ui/Loading";
+import ErrorView from "@/components/ui/ErrorView";
 import Button from "@/components/atoms/Button";
 import Card from "@/components/atoms/Card";
 import Badge from "@/components/atoms/Badge";
+import Tasks from "@/components/pages/Tasks";
+import Fields from "@/components/pages/Fields";
 import TaskCard from "@/components/molecules/TaskCard";
-import Loading from "@/components/ui/Loading";
-import ErrorView from "@/components/ui/ErrorView";
-import fieldService from "@/services/api/fieldService";
-import cropService from "@/services/api/cropService";
-import taskService from "@/services/api/taskService";
 
 const FieldDetail = () => {
   const { fieldId } = useParams();
@@ -99,7 +102,21 @@ const stages = crop?.stages_c ? JSON.parse(crop.stages_c) : crop?.stages || [];
             <Button 
               variant="outline" 
               size="sm"
-              onClick={() => navigate(`/fields/edit/${fieldId}`)}
+onClick={() => {
+                if (!fieldId) {
+                  console.error('FieldDetail: fieldId is missing for edit navigation');
+                  toast.error('Unable to edit field: Invalid field ID');
+                  return;
+                }
+                
+                console.log('FieldDetail: Navigating to edit field with ID:', fieldId);
+                try {
+                  navigate(`/fields/edit/${fieldId}`);
+                } catch (error) {
+                  console.error('FieldDetail: Navigation error:', error);
+                  toast.error('Failed to navigate to edit field');
+                }
+              }}
             >
               <ApperIcon name="Edit2" className="w-4 h-4 mr-2" />
               Edit Field
