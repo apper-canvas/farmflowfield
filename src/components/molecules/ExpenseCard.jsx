@@ -48,8 +48,8 @@ const ExpenseCard = ({ expense, onEdit }) => {
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <span className="text-xl font-bold text-gray-900">
-                ${expense.amount.toFixed(2)}
+<span className="text-xl font-bold text-gray-900">
+                ${(expense?.amount && typeof expense.amount === 'number' ? expense.amount : 0).toFixed(2)}
               </span>
               <Badge variant={getCategoryColor(expense.category)}>
                 {expense.category}
