@@ -11,7 +11,7 @@ import Select from "@/components/atoms/Select";
 import Button from "@/components/atoms/Button";
 import SearchBar from "@/components/molecules/SearchBar";
 import TaskCard from "@/components/molecules/TaskCard";
-import TaskCreateForm from "@/components/forms/TaskCreateForm";
+import TaskCreateForm from "@/components/molecules/TaskCreateForm";
 
 const Tasks = () => {
   const navigate = useNavigate();
