@@ -38,6 +38,19 @@
       },
       "redirectOnDeny": "/login"
     }
+},
+  "/fields/edit/:fieldId": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Field edit requires authentication",
+            "rule": "authenticated"
+          }
+        ]
+      },
+      "redirectOnDeny": "/login"
+    }
   },
   "/tasks": {
     "allow": {
