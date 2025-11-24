@@ -15,7 +15,7 @@ const Select = forwardRef(({
           {label}
         </label>
       )}
-      <select
+<select
         ref={ref}
         className={cn(
           "form-field",
@@ -24,7 +24,13 @@ const Select = forwardRef(({
         )}
         {...props}
       >
-        {children}
+        {props.options 
+          ? props.options.map((option, index) => (
+              <option key={index} value={option.value}>
+                {option.label}
+              </option>
+            ))
+          : children}
       </select>
       {error && (
         <p className="text-sm text-error">{error}</p>
