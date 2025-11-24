@@ -95,12 +95,19 @@ const stages = crop?.stages_c ? JSON.parse(crop.stages_c) : crop?.stages || [];
             </div>
           </div>
 
-          <div className="flex space-x-2">
-            <Button variant="outline" size="sm">
+<div className="flex space-x-2">
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => navigate(`/fields/edit/${fieldId}`)}
+            >
               <ApperIcon name="Edit2" className="w-4 h-4 mr-2" />
               Edit Field
             </Button>
-            <Button size="sm">
+            <Button 
+              size="sm"
+              onClick={() => navigate(`/tasks/create?fieldId=${fieldId}&fieldName=${encodeURIComponent(field.Name)}`)}
+            >
               <ApperIcon name="Plus" className="w-4 h-4 mr-2" />
               Add Task
             </Button>
