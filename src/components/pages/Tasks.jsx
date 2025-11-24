@@ -159,9 +159,8 @@ const pendingTasks = filteredTasks.filter(task => (task.status_c || task.status)
             onChange={(e) => setStatusFilter(e.target.value)}
           >
             <option value="all">All Status</option>
-            <option value="pending">Pending</option>
+<option value="pending">Pending</option>
             <option value="completed">Completed</option>
-            <option value="overdue">Overdue</option>
           </Select>
 
           <Select

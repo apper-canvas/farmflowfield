@@ -80,9 +80,8 @@ const TaskCreateForm = ({ onTaskCreated, onClose }) => {
     { value: 'high', label: 'High' }
   ];
 
-  const statusOptions = [
+const statusOptions = [
     { value: 'pending', label: 'Pending' },
-    { value: 'in_progress', label: 'In Progress' },
     { value: 'completed', label: 'Completed' }
   ];
 
